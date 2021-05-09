@@ -1,9 +1,11 @@
 import logo from './logo.svg';
 import './App.css';
+import AuthenticationButton from './Components/authenticationButton';
 
 function App() {
   return (
     <div className="App">
+      <AuthenticationButton/>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
