@@ -4,7 +4,7 @@ const path = require("path");
 const PORT = process.env.PORT || 3001;
 const routes = require("./routes");
 const app = express();
-
+const sequelize = require('./config/connection');
 
 app.use([
     express.urlencoded({ extended: true }),
@@ -21,7 +21,11 @@ app.use(routes);
 // Link API Routes here
 
 
-
-app.listen(PORT, () => {
-  console.log("🚀  Server server now on port", PORT, "👻 React App on Port 3000");
-});
+sequelize
+  .sync({ force: false, logging: true })
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log("🚀  Server server now on port", PORT, "👻 React App on Port 3000");
+    });
+  })
+  .catch(err => console.error(err));
