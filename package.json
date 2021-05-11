@@ -16,8 +16,11 @@
 	"license": "ISC",
 	"dependencies": {
 		"concurrently": "^6.0.2",
+		"dotenv": "^9.0.2",
 		"express": "^4.17.1",
-		"nodemon": "^2.0.7"
+		"mysql2": "^2.2.5",
+		"nodemon": "^2.0.7",
+		"sequelize": "^6.6.2"
 	},
 	"c": "proxy"
 }
