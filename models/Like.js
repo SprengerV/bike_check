@@ -16,7 +16,7 @@ Model.init(
             }
         },
         userId: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: false,
             references: {
                 model: User,

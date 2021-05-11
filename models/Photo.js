@@ -21,7 +21,7 @@ Photo.init(
             }
         },
         userId: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING,
             allowNull: true,
             references: {
                 model: User,
