@@ -12,7 +12,7 @@ Comment.init(
         },
         userId: {
             type: DataTypes.TEXT,
-            allowNull: false
+            allowNull: false,
             references: {
                 model: User,
                 key: 'id'
