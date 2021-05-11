@@ -19,6 +19,12 @@ User.init(
             allowNull: false,
             defaultValue: 'http://getdrawings.com/profile-icon#profile-icon-56.png'
         }
+    },
+    {
+        sequelize,
+        timestamps: false,
+        underscored: true,
+        modelName: 'users'
     }
 );
 
