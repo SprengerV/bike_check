@@ -5,6 +5,7 @@ const PORT = process.env.PORT || 3001;
 const routes = require("./routes");
 const app = express();
 const sequelize = require('./config/connection');
+const models = require('./models');
 
 app.use([
     express.urlencoded({ extended: true }),
