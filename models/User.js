@@ -14,6 +14,10 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false
         },
+        location: {
+            type: DataTypes.STRING [0, 24],
+            allowNull: true
+        },
         avatar: {
             type: DataTypes.STRING,
             allowNull: false,
