@@ -1,38 +1,48 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
+const Bike = require('./Bike');
 const User = require('./User');
 
-class Bike extends Model {};
+class Photo extends Model {};
 
-Bike.init(
+Photo.init(
     {
         id: {
             type: DataTypes.UUID,
-            defaultValue: DataTypes.UUIDV4
+            defaultValue: DataTypes.UUIDV4,
+            primaryKey: true
+        },
+        bikeId: {
+            type: DataTypes.UUID,
+            allowNull: true,
+            references: {
+                model: Bike,
+                key: 'id'
+            }
         },
         userId: {
             type: DataTypes.TEXT,
+            allowNull: true,
             references: {
                 model: User,
                 key: 'id'
             }
         },
-        body: {
+        url: {
             type: DataTypes.TEXT,
             allowNull: false
         },
-        updated: {
+        uploaded: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            allowNull: false
+            defaultValue: DataTypes.NOW
         }
     },
     {
         sequelize,
         timestamps: false,
         underscored: true,
-        modelName: 'bikes'
+        modelName: 'photos'
     }
 );
 
-module.exports = Bike;
+module.exports = Photo;
