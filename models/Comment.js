@@ -37,4 +37,6 @@ Comment.init(
         underscored: true,
         modelName: 'comments'
     }
-)
+);
+
+module.exports = Comment;
