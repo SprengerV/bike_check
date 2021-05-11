@@ -1,17 +1,17 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
-const Comment = require('./Comment');
+const Bike = require('./Bike');
 const User = require('./User');
 
 class Like extends Model {};
 
 Model.init(
     {
-        commentId: {
+        bikeId: {
             type: DataTypes.UUID,
             allowNull: false,
             references: {
-                model: Comment,
+                model: Bike,
                 key: 'id'
             }
         },
