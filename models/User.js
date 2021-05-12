@@ -12,7 +12,8 @@ User.init(
         },
         userName: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         location: {
             type: DataTypes.STRING [0, 24],
