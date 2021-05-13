@@ -6,9 +6,13 @@ import logo from "./images/bike-check-logo.png";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 function App() {
+
+  const { isAuthenticated } = useAuth0();
+
   return (
     <Router>
       <Container className="p-0" fluid={true}>
@@ -19,7 +23,9 @@ function App() {
         <Navbar.Collapse id="navbar-toggle">
           <Nav className='linkNav'>
             <Link className="homeNav" to='/'> Home</Link>
-            <Link className="homeNav" to='/Profile:id'> Profile</Link>
+            { isAuthenticated ? <Link className="homeNav" to='/Profile:id'> Profile</Link> :
+            <div/>}
+            
             <AuthenticationButton/>
           </Nav>
           </Navbar.Collapse>
