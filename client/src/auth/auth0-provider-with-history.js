@@ -13,6 +13,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
         <Auth0Provider
             domain="sprengerv.us.auth0.com"
             clientId="jyevD1V5GflsdusmwlmfmANS1dvOUjsN"
+            audience="bike-check"
             redirectUri={ window.location.origin }
             onRedirectCallback={ onRedirectCallback }
         >
