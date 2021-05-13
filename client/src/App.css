@@ -1,38 +1,88 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+html {
+  scroll-behavior: smooth;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.navigation {
+  background-image: url('./images/mtb_sky.jpeg');
+  background-position: center center;
+  background-size: cover;
+  width: 100%;
+  border-bottom: 10px solid #e04444;
+  margin-bottom: 5px;
+  
+}
+
+img.headerLogo {
+  height: 175px;
+  margin-left: 100px;
+  padding: 10px;
+  
+}
+
+.linkNav {
+  margin-left: auto;
+  margin-right: 40px;
+  
+}
+
+.homeNav {
+padding: 30px;
+}
+
+a.homeNav {
+  text-decoration: none;
   color: white;
+  font-family: Cubano;
+  font-size: xx-large;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+a.homeNav:hover {
+  color: #e04444;
 }
 
-.App-link {
-  color: #61dafb;
+a.authButton {
+  color: white;
+  font-family: Cubano;
+  font-size: xx-large;
+  margin-left: 15px;
+  margin-right: 10px;
+  text-decoration: none;
+  padding:30px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+a.authButton:hover {
+  color: #e04444;
+
+}
+
+@media screen and (max-width: 400px) {
+
+  img.headerLogo {
+    margin-left: 10px;
+    height: 125px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .homeNav {
+    padding:10px;
   }
+  a.authButton {
+   padding:10px;
+   margin-left:5px;
+
+  }
+
 }
