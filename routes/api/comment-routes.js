@@ -51,5 +51,31 @@ router.put('/:id', userAuth, (req, res) => {
         }
         res.json(commentData);
     })
-    .catch
-})
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+
+// Delete comment
+router.delete('/:id', userAuth, (req, res) => {
+    Comment.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(commentData => {
+        if (!commentData) {
+            res.status(404).json({ message: "No comment found" });
+            return;
+        }
+        res.json(commentData);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+module.exports = router;
