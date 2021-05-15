@@ -18,6 +18,10 @@ Bike.init(
                 key: 'id'
             }
         },
+        title: {
+            type: DataTypes.String [1, 28],
+            allowNull: false
+        },
         body: {
             type: DataTypes.TEXT,
             allowNull: false
