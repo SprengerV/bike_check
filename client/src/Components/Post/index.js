@@ -16,7 +16,11 @@ const Post = () => {
                                 Open!
                             </Accordion.Toggle>
                         </Card.Header>
-                        
+                        <Accordion.Collapse eventKey='0'>
+                            <Card.Body className="row">
+                                
+                            </Card.Body>
+                        </Accordion.Collapse>
                     </Card>
                 </Accordion>
             </Container>
