@@ -70,7 +70,18 @@ const Post = () => {
                                     src=""
                                     alt=""
                                 />
-                                
+                                <Carousel.Caption>
+                                    <div className="row">
+                                        <div className="col-2">
+                                            <h1>Username</h1>
+                                            <p>Like</p>
+                                            <p>Dislike</p>
+                                        </div>
+                                        <div className="col-10">
+                                            <h4>About the Bike...</h4>
+                                        </div>
+                                    </div>
+                                </Carousel.Caption>
                             </Carousel.Item>
                         </Carousel>
                     </Card.Body>
