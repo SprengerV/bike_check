@@ -73,10 +73,14 @@ const Post = () => {
                                 />
                                 <Carousel.Caption>
                                     <div className="row">
-                                        <div className="col-2">
-                                            <h1>Username</h1>
-                                            <p>Like</p>
-                                            <p>Dislike</p>
+                                        <div className="col-2 row">
+                                            <h3>Username</h3>
+                                            <div className="col-5">
+                                                <p>Like</p>
+                                            </div>
+                                            <div className="col-5">
+                                                <p>Dislike</p>
+                                            </div>
                                         </div>
                                         <div className="col-10">
                                             <h4>About the Bike...</h4>
