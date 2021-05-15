@@ -83,6 +83,7 @@ const Post = () => {
                                             <Button variant="danger">Dislike</Button>
                                                 <p className="dislikeCount">2</p>
                                             </div>
+                                            <Button variant="danger">Comment</Button>
                                         </div>
                                         <div className="col-10">
                                             <h4>About the Bike...</h4>
