@@ -26,6 +26,10 @@ Bike.init(
             type: DataTypes.TEXT,
             allowNull: false
         },
+        category: {
+            type: DataTypes.STRING [1, 28],
+            allowNull: false
+        },
         updated: {
             type: DataTypes.DATE,
             defaultValue: DataTypes.NOW,
