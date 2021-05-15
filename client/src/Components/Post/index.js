@@ -1,5 +1,5 @@
 import React from 'react'
-import {Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl } from 'react-bootstrap';
+import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 const Post = () => {
@@ -23,7 +23,7 @@ const Post = () => {
                 </Card>
             </Container>
             <Container className="col-10">
-            <Accordion defaultActiveKey='0'>
+                <Accordion defaultActiveKey='0'>
                     <Card>
                         <Card.Header className='text-center bg-danger text-white'>
                             <Accordion.Toggle as={Button} eventKey='0'>
@@ -50,14 +50,19 @@ const Post = () => {
                                     <Button variant="danger">Post</Button>
                                 </Container>
                                 <Container className="col-9">
-                                    <FormControl placeholder="Title"/>
+                                    <FormControl placeholder="Title" />
                                     <br></br>
-                                    <FormControl as="textarea" rows="5" placeholder="About your bike..."/>
+                                    <FormControl as="textarea" rows="5" placeholder="About your bike..." />
                                 </Container>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
+                <Card>
+                    <Card.Header className='text-center bg-danger text-white'>
+                            title
+                    </Card.Header>
+                </Card>
             </Container>
 
         </Container>
