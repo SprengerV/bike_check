@@ -76,11 +76,11 @@ const Post = () => {
                                         <div className="col-2 row">
                                             <h3>Username</h3>
                                             <div className="col-5">
-                                                <p>Like</p>
+                                            <Button variant="danger">Like</Button>
                                                 <p className="likeCount">15</p>
                                             </div>
                                             <div className="col-5">
-                                                <p>Dislike</p>
+                                            <Button variant="danger">Dislike</Button>
                                                 <p className="dislikeCount">2</p>
                                             </div>
                                         </div>
