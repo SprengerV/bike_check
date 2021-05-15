@@ -17,19 +17,22 @@ function App() {
     <Router>
       <Container className="p-0" fluid={true}>
 
-      <Navbar className='Navbar navbar-dark navigation ' bg="transparent" expand="lg">
-        <Navbar.Brand className='nav-fonts'><img href='/' src={logo} className="headerLogo"/></Navbar.Brand>
-        <Navbar.Toggle className='border-0' aria-controls="navbar-toggle" />
-        <Navbar.Collapse id="navbar-toggle">
-          <Nav className='linkNav'>
-            <Link className="homeNav" to='/'> Home</Link>
-            { isAuthenticated ? <Link className="homeNav" to='/Profile:id'> Profile</Link> :
-            <div/>}
-            
-            <AuthenticationButton/>
-          </Nav>
+        <Navbar className='Navbar navbar-dark  navigation ' bg="transparent" expand="lg">
+          <Navbar.Brand className='nav-fonts'><img href='/' src={logo} className="headerLogo" /></Navbar.Brand>
+          <div className="navButton-border">
+            <Navbar.Toggle id="navButton" className='navButton' aria-controls="navbar-toggle" />
+          </div>
+          <Navbar.Collapse id="navbar-toggle">
+            <Nav className='linkNav'>
+              <Link className="homeNav" to='/'> Home</Link>
+
+              {isAuthenticated ? 
+            <Link className="homeNav" to='/Profile:id'> Profile</Link> :
+                <div />}
+              <AuthenticationButton />
+            </Nav>
           </Navbar.Collapse>
-      </Navbar>
+        </Navbar>
 
       </Container>
     </Router>
