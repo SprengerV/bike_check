@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
+
 const Post = () => {
     return (
         <Container className="row" fluid={true}>
@@ -67,7 +68,7 @@ const Post = () => {
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
-                                    src=""
+                                    src="https://via.placeholder.com/800x400?text=First slide&bg=373940"
                                     alt=""
                                 />
                                 <Carousel.Caption>
