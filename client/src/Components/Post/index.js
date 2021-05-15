@@ -64,34 +64,34 @@ const Post = () => {
                         title
                     </Card.Header>
                     <Card.Body>
-                        <Carousel>
-                            <Carousel.Item>
+                        <div className="d-flex flex-column justify-content-center">
+                            <div>
                                 <img
                                     className="d-block w-100"
                                     src="https://via.placeholder.com/800x400?text=First slide&bg=373940"
                                     alt=""
                                 />
-                                <Carousel.Caption>
-                                    <div className="row">
-                                        <div className="col-2 row">
-                                            <h3>Username</h3>
-                                            <div className="col-5">
+                            </div>
+                            <div>
+                                <div className="row">
+                                    <div className="col-2 row">
+                                        <h3>Username</h3>
+                                        <div className="col-5">
                                             <Button variant="danger">Like</Button>
-                                                <p className="likeCount">15</p>
-                                            </div>
-                                            <div className="col-5">
+                                            <p className="likeCount">15</p>
+                                        </div>
+                                        <div className="col-5">
                                             <Button variant="danger">Dislike</Button>
-                                                <p className="dislikeCount">2</p>
-                                            </div>
-                                            <Button variant="danger">Comment</Button>
+                                            <p className="dislikeCount">2</p>
                                         </div>
-                                        <div className="col-10">
-                                            <h4>About the Bike...</h4>
-                                        </div>
+                                        <Button variant="danger">Comment</Button>
                                     </div>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                        </Carousel>
+                                    <div className="col-10">
+                                        <h4>About the Bike...</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </Card.Body>
                 </Card>
             </Container>
