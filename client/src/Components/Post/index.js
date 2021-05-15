@@ -21,6 +21,13 @@ const Post = () => {
                                 <Container className="col-3 d-flex flex-column justify-content-center">
                                     <DropdownButton title="Category" variant="outline-danger">
                                         <Dropdown.Item>Mountain</Dropdown.Item>
+                                        <Dropdown.Item>Road</Dropdown.Item>
+                                        <Dropdown.Item>Gravel</Dropdown.Item>
+                                        <Dropdown.Item>Touring</Dropdown.Item>
+                                        <Dropdown.Item>BMX</Dropdown.Item>
+                                        <Dropdown.Item>Commuter</Dropdown.Item>
+                                        <Dropdown.Item>Custom Builds</Dropdown.Item>
+                                        <Dropdown.Item>Vintage</Dropdown.Item>
                                     </DropdownButton>
                                     <br></br>
                                     <Button variant="danger">Upload Image</Button>
