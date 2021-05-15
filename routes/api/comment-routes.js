@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Bike, Comment, Like, Photo, User  } = require('../../models');
-const userAuth = require('../../client/src/auth');
+const withAuth = require('../../client/src/auth');
 // do we need a timestamp helper here for post times?
 
 // GET all comments
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
 });
 
 // POST a comment
-router.post('/', userAuth, (req, res) => {
+router.post('/', withAuth, (req, res) => {
     if (req.session) {
         Comment.create({
             body: req.body.body,
@@ -36,7 +36,7 @@ router.post('/', userAuth, (req, res) => {
 });
 
 // PUT / update comment
-router.put('/:id', userAuth, (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
     Comment.update(req.body,
         {
             where: {
@@ -59,7 +59,7 @@ router.put('/:id', userAuth, (req, res) => {
 
 
 // Delete comment
-router.delete('/:id', userAuth, (req, res) => {
+router.delete('/:id', withAuth, (req, res) => {
     Comment.destroy({
         where: {
             id: req.params.id
