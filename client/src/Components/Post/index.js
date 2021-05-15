@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl } from 'react-bootstrap';
+import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel} from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 const Post = () => {
@@ -62,6 +62,13 @@ const Post = () => {
                     <Card.Header className='text-center bg-danger text-white'>
                             title
                     </Card.Header>
+                    <Card.Body>
+                        <Carousel>
+                            <Carousel.Item>
+                                
+                            </Carousel.Item>
+                        </Carousel>
+                    </Card.Body>
                 </Card>
             </Container>
 
