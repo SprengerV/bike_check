@@ -84,12 +84,19 @@ const Post = () => {
                                             <Button variant="danger">Dislike</Button>
                                             <p className="dislikeCount">2</p>
                                         </div>
-                                        <Button variant="danger">Comment</Button>
                                     </div>
                                     <div className="col-10">
                                         <h4>About the Bike...</h4>
                                     </div>
                                 </div>
+                                <Accordion defaultActiveKey='0'>
+                                    <Accordion.Toggle as={Button} eventKey='0'>
+                                        Comment
+                                    </Accordion.Toggle>
+                                    <Accordion.Collapse eventKey='0'>
+                                        <FormControl as="textarea" rows="5" placeholder="Your comment..." />
+                                    </Accordion.Collapse>
+                                </Accordion>
                             </div>
                         </div>
                     </Card.Body>
