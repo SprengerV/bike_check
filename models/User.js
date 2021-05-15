@@ -8,11 +8,13 @@ User.init(
         id: {
             type: DataTypes.STRING,
             allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         userName: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique: true
         },
         location: {
             type: DataTypes.STRING [0, 24],
