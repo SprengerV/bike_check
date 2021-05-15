@@ -28,7 +28,11 @@ const Post = () => {
                                     <br></br>
                                     <Button variant="danger">Post</Button>
                                 </Container>
-                                
+                                <Container className="col-9">
+                                    <FormControl placeholder="Title"/>
+                                    <br></br>
+                                    <FormControl as="textarea" rows="5"/>
+                                </Container>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
