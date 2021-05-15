@@ -12,7 +12,7 @@ router.post('/', withAuth, (req, res) => {
         user ?
             res.statusCode(200).json(user)
             :
-            res.statusCode(400).json({ message: 'User already in database' })
+            res.statusCode(400).json({ message: 'User already in database' });
     });
 });
 
