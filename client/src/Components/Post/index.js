@@ -10,6 +10,16 @@ const Post = () => {
                     <Card.Header>
                         Categories
                     </Card.Header>
+                    <Card.Body>
+                        <Button variant="light">Mountain</Button><br></br>
+                        <Button variant="light">Road</Button><br></br>
+                        <Button variant="light">Gravel</Button><br></br>
+                        <Button variant="light">Touring</Button><br></br>
+                        <Button variant="light">BMX</Button><br></br>
+                        <Button variant="light">Commuter</Button><br></br>
+                        <Button variant="light">Custom Builds</Button><br></br>
+                        <Button variant="light">Vintage</Button><br></br>
+                    </Card.Body>
                 </Card>
             </Container>
             <Container className="col-10">
