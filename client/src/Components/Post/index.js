@@ -4,7 +4,15 @@ import {Container, Accordion, Card, Button, DropdownButton, Dropdown, FormContro
 
 const Post = () => {
     return (
-        
+        <Container className="row" fluid={true}>
+            <Container className="col-2">
+              
+            </Container>
+            <Container className="col-10">
+                
+            </Container>
+
+        </Container>
     )
 }
 
