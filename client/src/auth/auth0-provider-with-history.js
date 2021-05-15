@@ -4,12 +4,12 @@ import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
 import api from '../controllers/api';
 
 const Auth0ProviderWithHistory = ({ children }) => {
-    const { user, getAccessTokenSilently } = useAuth0();
-    const token = getAccessTokenSilently();
     const history = useHistory();
+    const { user, getAccessTokenSilently } = useAuth0();
 
     const onRedirectCallback = (appState) => {
         history.push(appState?.returnTo || window.location.pathname);
+        const token = getAccessTokenSilently();
         api.userCreate(user, token);
     };
 

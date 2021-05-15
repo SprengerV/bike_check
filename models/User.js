@@ -17,7 +17,7 @@ User.init(
             unique: true
         },
         location: {
-            type: DataTypes.STRING [0, 24],
+            type: DataTypes.STRING,
             allowNull: true
         },
         avatar: {
