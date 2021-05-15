@@ -38,7 +38,7 @@ const Post = () => {
                                 <Container className="col-9">
                                     <FormControl placeholder="Title"/>
                                     <br></br>
-                                    <FormControl as="textarea" rows="5"/>
+                                    <FormControl as="textarea" rows="5" placeholder="About your bike..."/>
                                 </Container>
                             </Card.Body>
                         </Accordion.Collapse>
