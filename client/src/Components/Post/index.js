@@ -77,9 +77,11 @@ const Post = () => {
                                             <h3>Username</h3>
                                             <div className="col-5">
                                                 <p>Like</p>
+                                                <p className="likeCount">15</p>
                                             </div>
                                             <div className="col-5">
                                                 <p>Dislike</p>
+                                                <p className="dislikeCount">2</p>
                                             </div>
                                         </div>
                                         <div className="col-10">
