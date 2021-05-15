@@ -8,7 +8,7 @@ router.post('/', withAuth, (req, res) => {
         id: user.id,
         userName: user.nickname,
     })
-    ,then(user => {
+    .then(user => {
         user ?
             res.statusCode(200).json(user)
             :
