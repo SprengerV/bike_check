@@ -9,7 +9,16 @@ const Post = () => {
               
             </Container>
             <Container className="col-10">
-                
+            <Accordion defaultActiveKey='0'>
+                    <Card>
+                        <Card.Header className='text-center bg-danger text-white'>
+                            <Accordion.Toggle as={Button} eventKey='0'>
+                                Open!
+                            </Accordion.Toggle>
+                        </Card.Header>
+                        
+                    </Card>
+                </Accordion>
             </Container>
 
         </Container>
