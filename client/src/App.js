@@ -5,6 +5,7 @@ import NavbarMain from './Components/NavbarMain';
 import Post from './Components/Post';
 
 function App() {
+
   return (
     <Router>
      <NavbarMain />

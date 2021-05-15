@@ -19,7 +19,7 @@ Bike.init(
             }
         },
         title: {
-            type: DataTypes.String [1, 28],
+            type: DataTypes.STRING,
             allowNull: false
         },
         body: {
