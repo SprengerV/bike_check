@@ -6,7 +6,11 @@ const Post = () => {
     return (
         <Container className="row" fluid={true}>
             <Container className="col-2">
-              
+                <Card>
+                    <Card.Header>
+                        Categories
+                    </Card.Header>
+                </Card>
             </Container>
             <Container className="col-10">
             <Accordion defaultActiveKey='0'>
