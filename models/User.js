@@ -8,7 +8,8 @@ User.init(
         id: {
             type: DataTypes.STRING,
             allowNull: false,
-            primaryKey: true
+            primaryKey: true,
+            unique: true
         },
         userName: {
             type: DataTypes.STRING,
