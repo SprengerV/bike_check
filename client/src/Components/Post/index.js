@@ -18,6 +18,16 @@ const Post = () => {
                         </Card.Header>
                         <Accordion.Collapse eventKey='0'>
                             <Card.Body className="row">
+                                <Container className="col-3 d-flex flex-column justify-content-center">
+                                    <DropdownButton title="Category" variant="outline-danger">
+                                        <Dropdown.Item>Mountain</Dropdown.Item>
+                                    </DropdownButton>
+                                    <br></br>
+                                    <Button variant="danger">Upload Image</Button>
+                                    <br></br>
+                                    <br></br>
+                                    <Button variant="danger">Post</Button>
+                                </Container>
                                 
                             </Card.Body>
                         </Accordion.Collapse>
