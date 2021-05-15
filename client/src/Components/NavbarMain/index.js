@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import logo from "../../images/bike-check-logo.png";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import AuthenticationButton from '../authenticationButton';
 import { useAuth0 } from "@auth0/auth0-react"
 
