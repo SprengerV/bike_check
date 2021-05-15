@@ -28,7 +28,7 @@ const Post = () => {
                     <Card>
                         <Card.Header className='text-center bg-danger text-white'>
                             <Accordion.Toggle as={Button} eventKey='0'>
-                                Open!
+                                Post
                             </Accordion.Toggle>
                         </Card.Header>
                         <Accordion.Collapse eventKey='0'>
