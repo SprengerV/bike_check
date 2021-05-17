@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Bike, Comment, Like, Photo, User  } = require('../../models');
-const withAuth = require('../../client/src/auth');
+const withAuth = require('../../utils/auth');
 // do we need a timestamp helper here for post times?
 
 // GET all comments
