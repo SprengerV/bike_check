@@ -67,6 +67,12 @@ a.homeNav:hover {
   color: #e04444;
 }
 
+/* -------------------------post styling----------------------- */
+
+label.photoUploadBtn {
+  background-color: #e04444;
+  color: white;
+}
 
 
 @media screen and (max-width: 400px) {

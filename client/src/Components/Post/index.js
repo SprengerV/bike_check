@@ -1,9 +1,29 @@
-import React from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-
+import Axios from "axios";
+import {Image} from "cloudinary-react";
 
 const Post = () => {
+
+
+    const [imageSelected, setImageSelected] = useState("")
+
+
+    const uploadImage = () => {
+        const formData = new FormData;
+        formData.append('file', imageSelected);
+        formData.append("upload_preset", "fnin4syl");
+
+        Axios.post(
+            "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
+            formData
+        ).then((response) => {
+            console.log(response);
+        })
+
+    }
+
     return (
         <Container className="row" fluid={true}>
             <Container className="col-2">
@@ -44,15 +64,18 @@ const Post = () => {
                                         <Dropdown.Item>Custom Builds</Dropdown.Item>
                                         <Dropdown.Item>Vintage</Dropdown.Item>
                                     </DropdownButton>
-                                    <br></br>
-                                    <Button variant="danger">Upload Image</Button>
-                                    <br></br>
-                                    <br></br>
-                                    <Button variant="danger">Post</Button>
+                                    <br/>
+                                    <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
+                                    <input style={{visibility:'hidden'}} id="files" type="file"  onChange={(event) => {
+                                        setImageSelected(event.target.files[0]);
+                                    }} />
+                                    <br/>
+                                    <br/>
+                                    <Button variant="danger" onClick={uploadImage} >Post</Button>
                                 </Container>
                                 <Container className="col-9">
                                     <FormControl placeholder="Title" />
-                                    <br></br>
+                                    <br/>
                                     <FormControl as="textarea" rows="5" placeholder="About your bike..." />
                                 </Container>
                             </Card.Body>
@@ -65,12 +88,8 @@ const Post = () => {
                     </Card.Header>
                     <Card.Body>
                         <div className="d-flex flex-column justify-content-center">
-                            <div>
-                                <img
-                                    className="d-block w-100"
-                                    src="https://via.placeholder.com/800x400?text=First slide&bg=373940"
-                                    alt=""
-                                />
+                            <div className="mr-auto ml-auto">
+                                <Image cloudName="dply85wun" publicId="https://res.cloudinary.com/dply85wun/image/upload/v1621299219/c6fqqln5huczo1t95gje.jpg" style={{height: '600px'}}/>
                             </div>
                             <div>
                                 <div className="row">
@@ -86,7 +105,7 @@ const Post = () => {
                                         </div>
                                     </div>
                                     <div className="col-10">
-                                        <h4>About the Bike...</h4>
+                                        <textarea className='postTextArea' placeholder="about the bike" cols='150' rows='5'/>
                                     </div>
                                 </div>
                                 <Accordion defaultActiveKey='0'>
