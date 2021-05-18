@@ -27,7 +27,7 @@ Bike.init(
             allowNull: false
         },
         category: {
-            type: DataTypes.STRING [1, 28],
+            type: DataTypes.STRING,
             allowNull: false
         },
         updated: {
