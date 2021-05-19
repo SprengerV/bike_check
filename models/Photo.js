@@ -13,7 +13,7 @@ Photo.init(
             primaryKey: true
         },
         bikeId: {
-            type: DataTypes.UUID,
+            type: DataTypes.STRING,
             allowNull: true,
             references: {
                 model: Bike,

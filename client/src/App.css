@@ -74,6 +74,15 @@ label.photoUploadBtn {
   color: white;
 }
 
+.displayPic {
+  margin-left: 100px;
+
+}
+
+
+
+/* -------------------------mobile-------------------------- */
+
 
 @media screen and (max-width: 400px) {
   div.navButton-border{

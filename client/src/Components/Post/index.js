@@ -2,7 +2,10 @@ import React, { useState } from 'react'
 import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Axios from "axios";
+import DipslayPost from "../DisplayPost/index"
 import {Image} from "cloudinary-react";
+import API from "../../utils/API";
+import DisplayPost from '../DisplayPost/index';
 
 const Post = () => {
 
@@ -23,6 +26,8 @@ const Post = () => {
         })
 
     }
+   
+    
 
     return (
         <Container className="row" fluid={true}>
@@ -54,6 +59,7 @@ const Post = () => {
                         <Accordion.Collapse eventKey='0'>
                             <Card.Body className="row">
                                 <Container className="col-3 d-flex flex-column justify-content-center">
+                                    <label for="category">Category</label>
                                     <DropdownButton title="Category" variant="outline-danger">
                                         <Dropdown.Item>Mountain</Dropdown.Item>
                                         <Dropdown.Item>Road</Dropdown.Item>
@@ -82,44 +88,7 @@ const Post = () => {
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
-                <Card>
-                    <Card.Header className='text-center bg-danger text-white'>
-                        title
-                    </Card.Header>
-                    <Card.Body>
-                        <div className="d-flex flex-column justify-content-center">
-                            <div className="mr-auto ml-auto">
-                                <Image cloudName="dply85wun" publicId="https://res.cloudinary.com/dply85wun/image/upload/v1621299219/c6fqqln5huczo1t95gje.jpg" style={{height: '600px'}}/>
-                            </div>
-                            <div>
-                                <div className="row">
-                                    <div className="col-2 row">
-                                        <h3>Username</h3>
-                                        <div className="col-5">
-                                            <Button variant="danger">Like</Button>
-                                            <p className="likeCount">15</p>
-                                        </div>
-                                        <div className="col-5">
-                                            <Button variant="danger">Dislike</Button>
-                                            <p className="dislikeCount">2</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-10">
-                                        <textarea className='postTextArea' placeholder="about the bike" cols='150' rows='5'/>
-                                    </div>
-                                </div>
-                                <Accordion defaultActiveKey='0'>
-                                    <Accordion.Toggle as={Button} eventKey='0'>
-                                        Comment
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey='0'>
-                                        <FormControl as="textarea" rows="5" placeholder="Your comment..." />
-                                    </Accordion.Collapse>
-                                </Accordion>
-                            </div>
-                        </div>
-                    </Card.Body>
-                </Card>
+                <DisplayPost/>
             </Container>
 
         </Container>

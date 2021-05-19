@@ -30,7 +30,15 @@ router.get('/', (req, res) => {
                     model: User,
                     attributes: ['userName']
                 }
+            },
+            {
+                model: Photo,
+                attributes: [
+                    "url",
+                ]
             }
+
+
         ]
     })
     .then(bikeData => res.json(bikeData))
