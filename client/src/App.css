@@ -81,6 +81,21 @@ label.photoUploadBtn {
 
 
 
+/* ----------------------------display post---------------------- */
+
+a.carousel-control-prev span.sr-only, 
+a.carousel-control-next span.sr-only  {
+  color: #e04444;
+  text-decoration: none;
+  display: none;
+}
+span.carousel-control-next-icon{
+  background-image : url("./images/next-arrow.png");
+}
+span.carousel-control-prev-icon{
+background-image : url("./images/previous-arrow.png");
+}
+
 /* -------------------------mobile-------------------------- */
 
 
