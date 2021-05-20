@@ -33,7 +33,7 @@ const Post = () => {
         <Container className="row" fluid={true}>
             <Container className="col-2">
                 <Card>
-                    <Card.Header>
+                    <Card.Header className="categoryHeader">
                         Categories
                     </Card.Header>
                     <Card.Body>
@@ -52,15 +52,15 @@ const Post = () => {
                 <Accordion defaultActiveKey='0'>
                     <Card>
                         <Card.Header className='text-center bg-danger text-white'>
-                            <Accordion.Toggle as={Button} eventKey='0'>
+                            <Accordion.Toggle as={Button}  eventKey='1'>
                                 Post
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey='0'>
+                        <Accordion.Collapse eventKey='1'>
                             <Card.Body className="row">
                                 <Container className="col-3 d-flex flex-column justify-content-center">
                                     <label for="category">Category</label>
-                                    <DropdownButton title="Category" variant="outline-danger">
+                                    <DropdownButton id="SelectCategory" title="Category" variant="outline-danger">
                                         <Dropdown.Item>Mountain</Dropdown.Item>
                                         <Dropdown.Item>Road</Dropdown.Item>
                                         <Dropdown.Item>Gravel</Dropdown.Item>

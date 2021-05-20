@@ -37,7 +37,11 @@ const NavbarMain = () => {
             <AuthenticationButton />
           </Nav>
         </Navbar.Collapse>
-      </Navbar>ƒ
+      </Navbar>
+      {isAuthenticated ?
+        <h1 className="text-center userName">{user.nickname}</h1>
+        : <div />
+      }
 
     </Container>
   )
