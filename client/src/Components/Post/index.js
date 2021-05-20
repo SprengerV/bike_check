@@ -60,7 +60,7 @@ const Post = () => {
                             <Card.Body className="row">
                                 <Container className="col-3 d-flex flex-column justify-content-center">
                                     <label for="category">Category</label>
-                                    <DropdownButton title="Category" variant="outline-danger">
+                                    <DropdownButton id="SelectCategory" title="Category" variant="outline-danger">
                                         <Dropdown.Item>Mountain</Dropdown.Item>
                                         <Dropdown.Item>Road</Dropdown.Item>
                                         <Dropdown.Item>Gravel</Dropdown.Item>
