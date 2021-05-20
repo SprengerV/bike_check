@@ -99,7 +99,8 @@ router.post('/', withAuth, (req, res) => {
     Bike.create({
         title: req.body.title,
         body: req.body.body,
-        userId: req.session.userId
+        userId: req.session.userId,
+        category: req.session.userId
     })
     .then(bikeData => res.json(bikeData))
     .catch(err => {
