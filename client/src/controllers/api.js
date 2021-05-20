@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const userCreate = (user, token) => {
-    return axios.post('/auth/', { user }, {
+    return axios.post('/auth/create', { user }, {
         headers: {
             Authorization: `Bearer ${token}`
         },

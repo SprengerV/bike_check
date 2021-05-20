@@ -2,17 +2,23 @@ const router = require('express').Router();
 const withAuth = require('../utils/auth');
 const User = require('../models').User;
 
-router.post('/', withAuth, (req, res) => {
+router.post('/create', withAuth, (req, res) => {
     const user = req.body.user;
+    console.log(user)
     User.create({
-        id: user.id,
+        id: user.sub,
         userName: user.nickname,
+        avatar: user.picture
     })
     .then(user => {
         user ?
-            res.statusCode(200).json(user)
+            res.status(200).json(user)
             :
-            res.statusCode(400).json({ message: 'User already in database' });
+            res.status(400).json({ message: 'User already in database' });
+    })
+    .catch(err => {
+        console.error(err);
+        res.status(500);
     });
 });
 
