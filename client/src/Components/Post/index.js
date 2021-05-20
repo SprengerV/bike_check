@@ -33,7 +33,7 @@ const Post = () => {
         <Container className="row" fluid={true}>
             <Container className="col-2">
                 <Card>
-                    <Card.Header>
+                    <Card.Header className="categoryHeader">
                         Categories
                     </Card.Header>
                     <Card.Body>

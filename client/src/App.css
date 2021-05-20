@@ -67,6 +67,16 @@ a.homeNav:hover {
   color: #e04444;
 }
 
+h1.userName {
+  font-family: Cubano;
+  color: #e04444;
+  font-size: xx-large;
+}
+
+div.categoryHeader {
+  background-color: #e04444;
+  color: white;
+}
 /* -------------------------post styling----------------------- */
 
 label.photoUploadBtn {

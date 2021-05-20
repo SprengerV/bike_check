@@ -9,7 +9,8 @@ import { useAuth0 } from "@auth0/auth0-react"
 
 
 const NavbarMain = () => {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
+
   return (
     <Container className="p-0" fluid={true}>
 
@@ -28,7 +29,11 @@ const NavbarMain = () => {
             <AuthenticationButton />
           </Nav>
         </Navbar.Collapse>
-      </Navbar>ƒ
+      </Navbar>
+      {isAuthenticated ?
+        <h1 className="text-center userName">{user.nickname}</h1>
+        : <div />
+      }
 
     </Container>
   )
