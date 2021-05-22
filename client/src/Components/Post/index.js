@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Form, Carousel, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import DipslayPost from "../DisplayPost/index"
@@ -12,7 +12,7 @@ import Axios from 'axios';
 
 const Post = () => {
 
-    const { user } = useAuth0(); 
+    const { user, getAccessTokenSilently } = useAuth0(); 
 
 
     const [imageSelected, setImageSelected] = useState("")
@@ -51,6 +51,16 @@ const Post = () => {
         })
 
     }
+
+    const fetchData = async() => {
+        const token = await getAccessTokenSilently();
+
+        console.log(token);
+
+    }
+
+    useEffect( () => { fetchData();}, [] );
+    
 
     // console.log(postTitle)
    
