@@ -5,7 +5,8 @@ const cats = ['All', 'Mountain', 'Road', 'Gravel', 'Touring', 'BMX', 'Commuter',
 
 const SideBar = (props) => {
   const select = (event) => {
-    props.func(event.target.innerHTML().toLowerCase());
+    props.func(event.target.innerHTML.toLowerCase());
+   
   }
   return (
     <Card>

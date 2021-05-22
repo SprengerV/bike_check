@@ -80,6 +80,7 @@ const Post = () => {
                                     onChange={(event) => {
                                         setCategorySelected(event.target.value)
                                     }}>
+                                    <option disabled selected >Select One</option>
                                     <option>Mountain</option>
                                     <option>Road</option>
                                     <option>Gravel</option>
