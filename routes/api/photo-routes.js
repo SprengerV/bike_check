@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Bike, Comment, Like, Photo, User  } = require('../../models');
 const withAuth = require('../../utils/auth');
+const jwt = 
 
 // Get all photos
 router.get('/', (req, res) => {

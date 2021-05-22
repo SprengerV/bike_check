@@ -1,5 +1,5 @@
-import React, { useState, Component } from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, CarouselItem, Input } from 'react-bootstrap';
+import React, { Component } from 'react'
+import { Accordion, Card, Button,  FormControl, Carousel, CarouselItem } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import { Image } from "cloudinary-react";
 import API from "../../utils/API";

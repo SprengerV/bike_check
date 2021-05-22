@@ -7,7 +7,6 @@ import { Link } from "react-router-dom"
 import AuthenticationButton from '../authenticationButton';
 import { useAuth0 } from "@auth0/auth0-react"
 import api from '../../controllers/api';
-import Axios from 'axios';
 
 const NavbarMain = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();

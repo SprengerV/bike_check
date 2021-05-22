@@ -1,18 +1,18 @@
 import React, { useState } from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Form, Carousel, Input } from 'react-bootstrap';
+import { Container, Accordion, Card, Button, FormControl } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import DipslayPost from "../DisplayPost/index"
-import {Image} from "cloudinary-react";
-import API from "../../utils/API";
+// import DipslayPost from "../DisplayPost/index"
 import DisplayPost from '../DisplayPost/index';
-import { useAuth0 } from '@auth0/auth0-react'
-import api from '../../controllers/api';
+import { useAuth0 } from '@auth0/auth0-react';
 import Axios from 'axios';
 
 
 const Post = () => {
 
-    const { user } = useAuth0(); 
+
+    const { user } = useAuth0();
+
+    
 
 
     const [imageSelected, setImageSelected] = useState("")
@@ -25,26 +25,21 @@ const Post = () => {
         const photoData = new FormData();
         photoData.append('file', imageSelected);
         photoData.append("upload_preset", "fnin4syl");
-        const postData = new FormData();
-        postData.append('title', postTitle);
-        postData.append('body', postBody);
-        postData.append('category', categorySelected);
-        postData.append('userId', user.sub)
 
-        Axios.post('api/bikes', postData);
 
         Axios.post(
             "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
             photoData
         ).then((response) => {
-                const photoDb = new FormData();
-                photoDb.append('url', response.data.url)
-                photoDb.append('userId', user.sub);
+            console.log(response)
+               
             Axios.post({
                 method: 'post',
-                url:'api/photos',
+                url:'api/bikes',
                 data: {
-                    url: response.data.url,
+                    title: postTitle,
+                    body: postBody,
+                    category: categorySelected,
                     userId: user.sub
                 }
             }).then((response) => console.log(response))
