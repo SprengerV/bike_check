@@ -1,11 +1,14 @@
 const router = require('express').Router();
 const { Bike, Comment, Like, Photo, User  } = require('../../models');
-const withAuth = require('../../client/src/auth');
+const withAuth = require('../../utils/auth');
 // do we need a timestamp helper here for post times?
 
 // GET all bikes
 router.get('/', (req, res) => {
     Bike.findAll({
+        order: [
+            ['updated', 'DESC']
+        ],
         attributes: [
             'id',
             'userId',
@@ -30,7 +33,79 @@ router.get('/', (req, res) => {
                     model: User,
                     attributes: ['userName']
                 }
+            },
+            {
+                model: Photo,
+                attributes: [
+                    "url",
+                ]
+            },
+            {
+                model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
+                ]
             }
+
+
+        ]
+    })
+    .then(bikeData => res.json(bikeData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+router.get('/:category', (req, res) => {
+    Bike.findAll({
+        where: {
+            category: req.params.category
+        },
+        order: [
+            ['updated', 'DESC']
+        ],
+        attributes: [
+            'id',
+            'userId',
+            'title',
+            'body',
+            'updated',
+        ],
+        include: [
+            {
+                model: User,
+                attributes: ['userName']
+            },
+            {
+                model: Comment,
+                attributes: [
+                    'id',
+                    'userId',
+                    'bikeId',
+                    'body',
+                ],
+                include: {
+                    model: User,
+                    attributes: ['userName']
+                }
+            },
+            {
+                model: Photo,
+                attributes: [
+                    "url",
+                ]
+            },
+            {
+                model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
+                ]
+            }
+
+
         ]
     })
     .then(bikeData => res.json(bikeData))
@@ -87,11 +162,12 @@ router.get('/:id', (req, res) => {
 
 
 // POST create new Bike post
-router.post('/', withAuth, (req, res) => {
+router.post('/', (req, res) => {
     Bike.create({
         title: req.body.title,
         body: req.body.body,
-        userId: req.session.userId
+        category: req.body.category,
+        userId: req.body.userId
     })
     .then(bikeData => res.json(bikeData))
     .catch(err => {
@@ -119,7 +195,7 @@ router.put('/:id', withAuth, (req, res) => {
             res.status(404).json({ message: "No blog post found" });
             return;
         }
-        res.json(bikeData);
+        res.json(bikeData[1]);
     })
     .catch(err => {
         console.log(err);
