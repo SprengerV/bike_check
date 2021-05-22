@@ -1,5 +1,5 @@
 import React, { useState, Component } from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
+import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, CarouselItem, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import { Image } from "cloudinary-react";
 import API from "../../utils/API";
@@ -13,7 +13,7 @@ class DisplayPost extends Component {
 
     componentDidMount() {
         API.getBikes()
-        // .then(res => console.log(res.data))
+            // .then(res => console.log(res.data))
             .then(res => this.setState({ bikes: res.data }))
             .catch(err => console.log(err));
     }
@@ -22,19 +22,28 @@ class DisplayPost extends Component {
     render() {
         return (
             <div>
-            {this.state.bikes.map((bike, index) => (
+                {this.state.bikes.map((bike, index) => (
                     <Card key={index}>
                         <Card.Header className='text-center bg-danger text-white'>
                             {bike.title}
                         </Card.Header>
                         <Card.Body>
                             <div className="d-flex flex-column justify-content-center">
-                                <div className="imageDiv">
-                                    <Image 
-                                    className="displayPic" 
-                                    cloudName="dply85wun" 
-                                    publicId={bike.photos[0].url} style={{ height: '600px' }} />
-                                </div>
+                                <Carousel fade className="displayCarousel">
+
+                                    {bike.photos.map((photo, index) => (
+                                        <CarouselItem className="d-flex justify-content-center">
+                                            <Image key={index}
+                                                className="displayPic d-block "
+                                                cloudName="dply85wun"
+                                                publicId={photo.url} 
+                                                alt={index}
+                                                style={{ height: '600px' }}
+                                                 />
+                                        </CarouselItem>
+                                    ))}
+
+                                </Carousel>
                                 <div>
                                     <div className="row">
                                         <div className="col-2 row">
@@ -65,7 +74,7 @@ class DisplayPost extends Component {
                         </Card.Body>
                     </Card>
                 ))
-            }
+                }
             </div>
         )
     }

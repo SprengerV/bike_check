@@ -1,31 +1,58 @@
 import React, { useState } from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
+import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Form, Carousel, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import Axios from "axios";
 import DipslayPost from "../DisplayPost/index"
 import {Image} from "cloudinary-react";
 import API from "../../utils/API";
 import DisplayPost from '../DisplayPost/index';
+import { useAuth0 } from '@auth0/auth0-react'
+import api from '../../controllers/api';
+import Axios from 'axios';
+
 
 const Post = () => {
 
+    const { user } = useAuth0(); 
+
 
     const [imageSelected, setImageSelected] = useState("")
-
+    const [categorySelected, setCategorySelected]= useState("")
+    const [postTitle, setPostTitle]= useState("")
+    const [postBody, setPostBody]= useState("")
+    
 
     const uploadImage = () => {
-        const formData = new FormData;
-        formData.append('file', imageSelected);
-        formData.append("upload_preset", "fnin4syl");
+        const photoData = new FormData();
+        photoData.append('file', imageSelected);
+        photoData.append("upload_preset", "fnin4syl");
+        const postData = new FormData();
+        postData.append('title', postTitle);
+        postData.append('body', postBody);
+        postData.append('category', categorySelected);
+        postData.append('userId', user.sub)
+
+        Axios.post('api/bikes', postData);
 
         Axios.post(
             "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
-            formData
+            photoData
         ).then((response) => {
-            console.log(response);
+                const photoDb = new FormData();
+                photoDb.append('url', response.data.url)
+                photoDb.append('userId', user.sub);
+            Axios.post({
+                method: 'post',
+                url:'api/photos',
+                data: {
+                    url: response.data.url,
+                    userId: user.sub
+                }
+            }).then((response) => console.log(response))
         })
 
     }
+
+    // console.log(postTitle)
    
     
 
@@ -33,7 +60,7 @@ const Post = () => {
         <Container className="row" fluid={true}>
             <Container className="col-2">
                 <Card>
-                    <Card.Header>
+                    <Card.Header className="categoryHeader">
                         Categories
                     </Card.Header>
                     <Card.Body>
@@ -52,24 +79,26 @@ const Post = () => {
                 <Accordion defaultActiveKey='0'>
                     <Card>
                         <Card.Header className='text-center bg-danger text-white'>
-                            <Accordion.Toggle as={Button} eventKey='0'>
+                            <Accordion.Toggle as={Button}  eventKey='1'>
                                 Post
                             </Accordion.Toggle>
                         </Card.Header>
-                        <Accordion.Collapse eventKey='0'>
+                        <Accordion.Collapse eventKey='1'>
                             <Card.Body className="row">
                                 <Container className="col-3 d-flex flex-column justify-content-center">
-                                    <label for="category">Category</label>
-                                    <DropdownButton title="Category" variant="outline-danger">
-                                        <Dropdown.Item>Mountain</Dropdown.Item>
-                                        <Dropdown.Item>Road</Dropdown.Item>
-                                        <Dropdown.Item>Gravel</Dropdown.Item>
-                                        <Dropdown.Item>Touring</Dropdown.Item>
-                                        <Dropdown.Item>BMX</Dropdown.Item>
-                                        <Dropdown.Item>Commuter</Dropdown.Item>
-                                        <Dropdown.Item>Custom Builds</Dropdown.Item>
-                                        <Dropdown.Item>Vintage</Dropdown.Item>
-                                    </DropdownButton>
+                                    <label for="Category">Category</label>
+                                    <select id="SelectCategory" title="Category" variant="outline-danger"
+                                    onChange={(event) => {setCategorySelected(event.target.value)
+                                    }}>
+                                        <option>Mountain</option>
+                                        <option>Road</option>
+                                        <option>Gravel</option>
+                                        <option>Touring</option>
+                                        <option>BMX</option>
+                                        <option>Commuter</option>
+                                        <option>Custom Builds</option>
+                                        <option>Vintage</option>
+                                    </select>
                                     <br/>
                                     <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
                                     <input style={{visibility:'hidden'}} id="files" type="file"  onChange={(event) => {
@@ -80,9 +109,13 @@ const Post = () => {
                                     <Button variant="danger" onClick={uploadImage} >Post</Button>
                                 </Container>
                                 <Container className="col-9">
-                                    <FormControl placeholder="Title" />
+                                    <FormControl id="postTitle" placeholder="Title" onChange={(event) => {
+                                        setPostTitle(event.target.value)
+                                    }}/>
                                     <br/>
-                                    <FormControl as="textarea" rows="5" placeholder="About your bike..." />
+                                    <FormControl as="textarea" rows="5" placeholder="About your bike..." onChange={(event) => {
+                                        setPostBody(event.target.value)
+                                    }}/>
                                 </Container>
                             </Card.Body>
                         </Accordion.Collapse>

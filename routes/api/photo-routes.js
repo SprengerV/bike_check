@@ -18,6 +18,20 @@ router.get('/', (req, res) => {
         console.log(err);
         res.status(400).json(err);
     });
+
+    router.post('/', withAuth, (req, res) => {
+        
+        Photo.create({
+            url: req.body.url,
+            bikeId: req.body.url,
+            userId: req.session.userId,
+        })
+        .then(photoData => res.json(photoData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+    });
 });
 
 

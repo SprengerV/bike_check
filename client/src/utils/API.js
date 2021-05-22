@@ -13,4 +13,10 @@ export default {
     getComments: function() {
         return axios.get("api/comments");
     },
+    postBike: function() {
+        return axios.put("api/bikes")
+    },
+    postPhoto: function() {
+        return axios.put("api/photos")
+    }
 }
