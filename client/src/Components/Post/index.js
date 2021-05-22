@@ -2,10 +2,8 @@ import React, { useState } from 'react'
 import { Col, Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Axios from "axios";
-import DipslayPost from "../DisplayPost/index"
 import {Image} from "cloudinary-react";
 import API from "../../utils/API";
-import DisplayPost from '../DisplayPost/index';
 
 const Post = () => {
     const [imageSelected, setImageSelected] = useState("")

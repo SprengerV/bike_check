@@ -1,23 +1,42 @@
-
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavbarMain from './Components/NavbarMain';
 import Post from './Components/Post';
 import SideBar from './Components/SideBar';
 import DisplayPost from './Components/DisplayPost';
-import { Row, Container } from 'react-bootstrap';
+import { Row, Col, Container } from 'react-bootstrap';
+import { getBikes } from './utils/API';
 
 function App() {
+  const [posts, setPosts] = useState([]);
+
+  const getPosts = (cat) => {
+    getBikes(cat)
+      .then(res => setPosts(res))
+      .catch(err => setPosts([err]));
+  }
+
+  useEffect(() => {
+    if (posts.length === 0) getPosts('all');
+  }, [posts]);
+
   return (
     <Router>
       <NavbarMain />
       <Container className="row" fluid={true}>
-        <SideBar/>
-        <Post/>
-      </Container>
-      <Row>
-        <DisplayPost/>
-      </Row>
+        <Col xs="2">
+          <SideBar func={ getPosts }/>
+        </Col>
+        <Col cs="10">
+          <Row>
+            <Post/>
+          </Row>
+          <Row>
+            <DisplayPost posts={ posts }/>
+          </Row>
+        </Col>
+      </Container>  
     </Router>
   );
 }
