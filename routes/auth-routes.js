@@ -2,18 +2,35 @@ const router = require('express').Router();
 const withAuth = require('../utils/auth');
 const User = require('../models').User;
 
-router.post('/', withAuth, (req, res) => {
+router.post('/create', withAuth, (req, res) => {
     const user = req.body.user;
-    User.create({
-        id: user.id,
-        userName: user.nickname,
-    })
-    .then(user => {
-        user ?
-            res.statusCode(200).json(user)
-            :
-            res.statusCode(400).json({ message: 'User already in database' });
-    });
+    const createUser = (user) => {
+        User
+            .create({
+                id: user.sub,
+                userName: user.nickname,
+                avatar: user.picture,
+                location: null
+            })
+            .then(user => res.status(200).json(user))
+            .catch(err => {
+                console.error(err);
+                res.status(500);
+            });
+    }
+    User
+        .findByPk(user.sub)
+        .then(searched => {
+            searched
+                ? res.status(200).json(searched)
+                : createUser(user);
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500)
+        })
+    
+
 });
 
 module.exports = router;

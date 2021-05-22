@@ -1,22 +1,34 @@
-import React, { useEffect } from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-import { useAuth0 } from '@auth0/auth0-react';
+import Axios from "axios";
+import DipslayPost from "../DisplayPost/index"
+import {Image} from "cloudinary-react";
+import API from "../../utils/API";
+import DisplayPost from '../DisplayPost/index';
 
 const Post = () => {
-    useEffect(() => {
 
-        const getMetadata = async () => {
-            const { getAccessTokenSilently, user} = useAuth0();
-            console.log(user);
-            const token = await getAccessTokenSilently({scope: `read:${user.name}`});
-            console.log(token);
-        }
 
-        getMetadata();
+    const [imageSelected, setImageSelected] = useState("")
+
+
+    const uploadImage = () => {
+        const formData = new FormData;
+        formData.append('file', imageSelected);
+        formData.append("upload_preset", "fnin4syl");
+
+        Axios.post(
+            "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
+            formData
+        ).then((response) => {
+            console.log(response);
+        })
+
+    }
+   
     
-    });
-    
+
     return (
         <Container className="row" fluid={true}>
             <Container className="col-2">
@@ -47,6 +59,7 @@ const Post = () => {
                         <Accordion.Collapse eventKey='0'>
                             <Card.Body className="row">
                                 <Container className="col-3 d-flex flex-column justify-content-center">
+                                    <label for="category">Category</label>
                                     <DropdownButton title="Category" variant="outline-danger">
                                         <Dropdown.Item>Mountain</Dropdown.Item>
                                         <Dropdown.Item>Road</Dropdown.Item>
@@ -57,63 +70,25 @@ const Post = () => {
                                         <Dropdown.Item>Custom Builds</Dropdown.Item>
                                         <Dropdown.Item>Vintage</Dropdown.Item>
                                     </DropdownButton>
-                                    <br></br>
-                                    <Button variant="danger">Upload Image</Button>
-                                    <br></br>
-                                    <br></br>
-                                    <Button variant="danger">Post</Button>
+                                    <br/>
+                                    <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
+                                    <input style={{visibility:'hidden'}} id="files" type="file"  onChange={(event) => {
+                                        setImageSelected(event.target.files[0]);
+                                    }} />
+                                    <br/>
+                                    <br/>
+                                    <Button variant="danger" onClick={uploadImage} >Post</Button>
                                 </Container>
                                 <Container className="col-9">
                                     <FormControl placeholder="Title" />
-                                    <br></br>
+                                    <br/>
                                     <FormControl as="textarea" rows="5" placeholder="About your bike..." />
                                 </Container>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
-                <Card>
-                    <Card.Header className='text-center bg-danger text-white'>
-                        title
-                    </Card.Header>
-                    <Card.Body>
-                        <div className="d-flex flex-column justify-content-center">
-                            <div>
-                                <img
-                                    className="d-block w-100"
-                                    src="https://via.placeholder.com/800x400?text=First slide&bg=373940"
-                                    alt=""
-                                />
-                            </div>
-                            <div>
-                                <div className="row">
-                                    <div className="col-2 row">
-                                        <h3>Username</h3>
-                                        <div className="col-5">
-                                            <Button variant="danger">Like</Button>
-                                            <p className="likeCount">15</p>
-                                        </div>
-                                        <div className="col-5">
-                                            <Button variant="danger">Dislike</Button>
-                                            <p className="dislikeCount">2</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-10">
-                                        <h4>About the Bike...</h4>
-                                    </div>
-                                </div>
-                                <Accordion defaultActiveKey='0'>
-                                    <Accordion.Toggle as={Button} eventKey='0'>
-                                        Comment
-                                    </Accordion.Toggle>
-                                    <Accordion.Collapse eventKey='0'>
-                                        <FormControl as="textarea" rows="5" placeholder="Your comment..." />
-                                    </Accordion.Collapse>
-                                </Accordion>
-                            </div>
-                        </div>
-                    </Card.Body>
-                </Card>
+                <DisplayPost/>
             </Container>
 
         </Container>
