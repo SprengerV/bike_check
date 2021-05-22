@@ -11,9 +11,10 @@ const { getBikes } = API;
 
 function App() {
   const [posts, setPosts] = useState([]);
+  console.log(posts.data)
 
   const getPosts = (cat) => {
-    api.getBikes(cat)
+    getBikes(cat)
       .then(res => setPosts(res))
       .catch(err => setPosts([err]));
   }
@@ -27,17 +28,17 @@ function App() {
       <NavbarMain />
       <Container className="row" fluid={true}>
         <Col xs="2">
-          <SideBar func={ getPosts }/>
+          <SideBar func={getPosts} />
         </Col>
         <Col cs="10">
           <Row>
-            <Post/>
+            <Post />
           </Row>
           <Row>
-            <DisplayPost posts={ posts }/>
+            <DisplayPost posts={posts.data} />
           </Row>
         </Col>
-      </Container>  
+      </Container>
     </Router>
   );
 }
