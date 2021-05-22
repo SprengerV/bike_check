@@ -4,8 +4,11 @@ const withAuth = require('../../utils/auth');
 
 
 // GET all bikes
-router.get('/',withAuth, (req, res) => {
+router.get('/', (req, res) => {
     Bike.findAll({
+        order: [
+            ['updated', 'DESC']
+        ],
         attributes: [
             'id',
             'userId',
@@ -35,6 +38,70 @@ router.get('/',withAuth, (req, res) => {
                 model: Photo,
                 attributes: [
                     "url",
+                ]
+            },
+            {
+                model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
+                ]
+            }
+
+
+        ]
+    })
+    .then(bikeData => res.json(bikeData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
+});
+
+router.get('/:category', (req, res) => {
+    Bike.findAll({
+        where: {
+            category: req.params.category
+        },
+        order: [
+            ['updated', 'DESC']
+        ],
+        attributes: [
+            'id',
+            'userId',
+            'title',
+            'body',
+            'updated',
+        ],
+        include: [
+            {
+                model: User,
+                attributes: ['userName']
+            },
+            {
+                model: Comment,
+                attributes: [
+                    'id',
+                    'userId',
+                    'bikeId',
+                    'body',
+                ],
+                include: {
+                    model: User,
+                    attributes: ['userName']
+                }
+            },
+            {
+                model: Photo,
+                attributes: [
+                    "url",
+                ]
+            },
+            {
+                model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
                 ]
             }
 
@@ -95,7 +162,7 @@ router.get('/:id', (req, res) => {
 
 
 // POST create new Bike post
-router.post('/', withAuth, (req, res) => {
+router.post('/', (req, res) => {
     Bike.create({
         title: req.body.title,
         body: req.body.body,

@@ -1,8 +1,11 @@
 import axios from "axios";
 
-export default {
+const API = {
     getBikes: function() {
-        return axios.get("api/bikes");
+        return axios.get(`api/bikes`);
+    },
+    getBikeCat: function(cat) {
+        return axios.get(`api/bikes/${cat}`)
     },
     getUsers: function() {
         return axios.get("api/users");
@@ -13,10 +16,6 @@ export default {
     getComments: function() {
         return axios.get("api/comments");
     },
-    postBike: function() {
-        return axios.put("api/bikes")
-    },
-    postPhoto: function() {
-        return axios.put("api/photos")
-    }
 }
+
+export default API;
