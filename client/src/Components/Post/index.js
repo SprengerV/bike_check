@@ -6,9 +6,21 @@ import DisplayPost from '../DisplayPost/index';
 import { useAuth0 } from '@auth0/auth0-react';
 import Axios from 'axios';
 
-
+   
 const Post = () => {
 
+    useEffect(() => {
+
+        const getMetadata = async () => {
+            const { getAccessTokenSilently, user} = useAuth0();
+            console.log(user);
+            const token = await getAccessTokenSilently({scope: `read:${user.name}`});
+            console.log(token);
+        }
+
+        getMetadata();
+    
+    });
 
     const { user } = useAuth0();
 
@@ -51,6 +63,8 @@ const Post = () => {
    
     
 
+
+    
     return (
         <Container className="row" fluid={true}>
             <Container className="col-2">

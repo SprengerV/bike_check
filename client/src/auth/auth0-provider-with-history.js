@@ -7,6 +7,8 @@ const Auth0ProviderWithHistory = ({ children }) => {
 
     const onRedirectCallback = (appState) => {
         history.push(appState?.returnTo || window.location.pathname);
+        const token = getAccessTokenSilently({scope: 'profile'});
+        api.userCreate(user, token);
     };
 
     return (

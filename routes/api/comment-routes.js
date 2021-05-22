@@ -22,17 +22,15 @@ router.get('/', (req, res) => {
 
 // POST a comment
 router.post('/', withAuth, (req, res) => {
-    if (req.session) {
-        Comment.create({
-            body: req.body.body,
-            bikeId: req.body.bikeId,
-            userId: req.session.userId
-        })
-        .then(commentData => res.json(commentData))
-        .catch(err => {
-            res.status(400).json(err);
-        });
-    }
+    Comment.create({
+        body: req.body.body,
+        bikeId: req.body.bikeId,
+        userId: req.body.userId
+    })
+    .then(commentData => res.json(commentData))
+    .catch(err => {
+        res.status(400).json(err);
+    });
 });
 
 // PUT update comment
