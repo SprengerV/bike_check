@@ -1,15 +1,15 @@
 const path = require("path");
 const router = require("express").Router();
-// const apiRoutes = require('./api');
-const authRoutes = require('./auth-routes')
+const apiRoutes = require('./api');
+const authRoutes = require('./auth-routes');
 
-router.use('/', homeRoutes);
-// router.use('/api', apiRoutes);
-router.use('/profile', profileRoutes);
+// API routes
+router.use('/api', apiRoutes);
+// Auth Routes
 router.use('/auth', authRoutes);
 
 
-
+// If no API routes, then send to react
 router.use(function(req, res) {
     res.sendFile(path.join(__dirname, "../client/build/index.html"))
 });

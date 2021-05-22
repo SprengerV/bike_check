@@ -1,10 +1,10 @@
 const router = require('express').Router();
 const { Bike, Comment, Like, Photo, User  } = require('../../models');
-const withAuth = require('../../client/src/auth');
+const withAuth = require('../../utils/auth');
 // do we need a timestamp helper here for post times?
 
 // GET all bikes
-router.get('/', (req, res) => {
+router.get('/',withAuth, (req, res) => {
     Bike.findAll({
         attributes: [
             'id',
@@ -91,7 +91,7 @@ router.post('/', withAuth, (req, res) => {
     Bike.create({
         title: req.body.title,
         body: req.body.body,
-        userId: req.session.userId
+        userId: req.body.userId
     })
     .then(bikeData => res.json(bikeData))
     .catch(err => {
@@ -119,7 +119,7 @@ router.put('/:id', withAuth, (req, res) => {
             res.status(404).json({ message: "No blog post found" });
             return;
         }
-        res.json(bikeData);
+        res.json(bikeData[1]);
     })
     .catch(err => {
         console.log(err);

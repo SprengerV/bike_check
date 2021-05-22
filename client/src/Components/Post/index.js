@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
-
+import { useAuth0 } from '@auth0/auth0-react';
 
 const Post = () => {
+    useEffect(() => {
+
+        const getMetadata = async () => {
+            const { getAccessTokenSilently, user} = useAuth0();
+            console.log(user);
+            const token = await getAccessTokenSilently({scope: `read:${user.name}`});
+            console.log(token);
+        }
+
+        getMetadata();
+    
+    });
+    
     return (
         <Container className="row" fluid={true}>
             <Container className="col-2">
