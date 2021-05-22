@@ -4,8 +4,11 @@ const withAuth = require('../../utils/auth');
 // do we need a timestamp helper here for post times?
 
 // GET all bikes
-router.get('/',withAuth, (req, res) => {
+router.get('/', (req, res) => {
     Bike.findAll({
+        order: [
+            ['updated', 'DESC']
+        ],
         attributes: [
             'id',
             'userId',
@@ -35,6 +38,13 @@ router.get('/',withAuth, (req, res) => {
                 model: Photo,
                 attributes: [
                     "url",
+                ]
+            },
+            {
+                model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
                 ]
             }
 
@@ -95,7 +105,7 @@ router.get('/:id', (req, res) => {
 
 
 // POST create new Bike post
-router.post('/', withAuth, (req, res) => {
+router.post('/', (req, res) => {
     Bike.create({
         title: req.body.title,
         body: req.body.body,

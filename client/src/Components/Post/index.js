@@ -6,34 +6,35 @@ import DisplayPost from '../DisplayPost/index';
 import { useAuth0 } from '@auth0/auth0-react';
 import Axios from 'axios';
 
-   
+
 const Post = () => {
 
-    useEffect(() => {
+    const { getAccessTokenSilently, user } = useAuth0();
 
-        const getMetadata = async () => {
-            const { getAccessTokenSilently, user} = useAuth0();
-            console.log(user);
-            const token = await getAccessTokenSilently({scope: `read:${user.name}`});
-            console.log(token);
-        }
+    // useEffect(() => {
 
-        getMetadata();
-    
-    });
+    //     const GetMetadata = async () => {
+    //         // const { getAccessTokenSilently, user} = useAuth0();
+    //         // console.log(user);
+    //         const token = await getAccessTokenSilently({scope: `read:${user.sub}`});
+    //         // console.log(token);
+    //     }
 
-    console.log(useEffect)
+    //     GetMetadata();
 
-    const { user } = useAuth0();
-
-    
+    // });
 
 
-    const [imageSelected, setImageSelected] = useState("")
-    const [categorySelected, setCategorySelected]= useState("")
-    const [postTitle, setPostTitle]= useState("")
-    const [postBody, setPostBody]= useState("")
-    
+
+    // console.log(user.sub)
+
+    const [imageSelected, setImageSelected] = useState("");
+    const [categorySelected, setCategorySelected] = useState("");
+    const [postTitle, setPostTitle] = useState("");
+    const [postBody, setPostBody] = useState("");
+    const [postId, setPostId] = useState("");
+    const [url, setUrl] = useState("");
+
 
     const uploadImage = () => {
         const photoData = new FormData();
@@ -41,32 +42,47 @@ const Post = () => {
         photoData.append("upload_preset", "fnin4syl");
 
 
+
+
         Axios.post(
             "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
             photoData
-        ).then((response) => {
-            console.log(response)
-               
-            Axios.post({
-                method: 'post',
-                url:'api/bikes',
-                data: {
+        ).then((data) => {
+
+
+            Axios.post(
+                "api/bikes",
+                {
                     title: postTitle,
                     body: postBody,
                     category: categorySelected,
                     userId: user.sub
                 }
-            }).then((response) => console.log(response))
-        })
+            ).then((response) => {
+                setPostId(response.data.id)
+                console.log(postId)
+                Axios.post(
+                    "api/photos",
+                    {
+                        url: data.data.url,
+                        userId: user.sub,
+                        bikeId: response.data.id
+                    }
+                ).then((res) => {
+                    console.log(res)
+                    window.location.reload()
+                })
+            })
 
+        })
     }
 
     // console.log(postTitle)
-   
-    
 
 
-    
+
+
+
     return (
         <Container className="row" fluid={true}>
             <Container className="col-2">
@@ -90,7 +106,7 @@ const Post = () => {
                 <Accordion defaultActiveKey='0'>
                     <Card>
                         <Card.Header className='text-center bg-danger text-white'>
-                            <Accordion.Toggle as={Button}  eventKey='1'>
+                            <Accordion.Toggle as={Button} eventKey='1'>
                                 Post
                             </Accordion.Toggle>
                         </Card.Header>
@@ -99,8 +115,9 @@ const Post = () => {
                                 <Container className="col-3 d-flex flex-column justify-content-center">
                                     <label for="Category">Category</label>
                                     <select id="SelectCategory" title="Category" variant="outline-danger"
-                                    onChange={(event) => {setCategorySelected(event.target.value)
-                                    }}>
+                                        onChange={(event) => {
+                                            setCategorySelected(event.target.value)
+                                        }}>
                                         <option>Mountain</option>
                                         <option>Road</option>
                                         <option>Gravel</option>
@@ -110,29 +127,29 @@ const Post = () => {
                                         <option>Custom Builds</option>
                                         <option>Vintage</option>
                                     </select>
-                                    <br/>
+                                    <br />
                                     <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
-                                    <input style={{visibility:'hidden'}} id="files" type="file"  onChange={(event) => {
+                                    <input style={{ visibility: 'hidden' }} id="files" type="file" onChange={(event) => {
                                         setImageSelected(event.target.files[0]);
                                     }} />
-                                    <br/>
-                                    <br/>
+                                    <br />
+                                    <br />
                                     <Button variant="danger" onClick={uploadImage} >Post</Button>
                                 </Container>
                                 <Container className="col-9">
                                     <FormControl id="postTitle" placeholder="Title" onChange={(event) => {
                                         setPostTitle(event.target.value)
-                                    }}/>
-                                    <br/>
+                                    }} />
+                                    <br />
                                     <FormControl as="textarea" rows="5" placeholder="About your bike..." onChange={(event) => {
                                         setPostBody(event.target.value)
-                                    }}/>
+                                    }} />
                                 </Container>
                             </Card.Body>
                         </Accordion.Collapse>
                     </Card>
                 </Accordion>
-                <DisplayPost/>
+                <DisplayPost />
             </Container>
 
         </Container>
