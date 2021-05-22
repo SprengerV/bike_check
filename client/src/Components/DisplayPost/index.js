@@ -1,8 +1,7 @@
-import React, { useState, Component } from 'react'
-import { Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, CarouselItem, Input } from 'react-bootstrap';
+import React, { Component } from 'react'
+import { Accordion, Card, Button, FormControl, Carousel, CarouselItem } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import { Image } from "cloudinary-react";
-import API from "../../utils/API";
 
 
 class DisplayPost extends Component {
@@ -11,12 +10,14 @@ class DisplayPost extends Component {
         bikes: []
     }
 
-    componentDidMount() {
-        API.getBikes()
-            // .then(res => console.log(res.data))
-            .then(res => this.setState({ bikes: res.data }))
-            .catch(err => console.log(err));
-    }
+    // componentDidMount() {
+    //     this.setState({ bikes: [] })
+    // }
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (prevState.bikes !== this.state.bikes) {
+    //         this.setState({ bikes: [] });
+    //     }
+    // }
 
 
     render() {

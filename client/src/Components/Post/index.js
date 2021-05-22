@@ -22,7 +22,7 @@ const Post = () => {
     }
 
     return (
-        <Col xs="10">
+        <Col xs="10" className="ms-auto me-auto">
             <Accordion defaultActiveKey='0'>
                 <Card>
                     <Card.Header className='text-center bg-danger text-white'>

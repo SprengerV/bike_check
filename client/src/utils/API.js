@@ -1,7 +1,7 @@
 import axios from "axios";
 
-export default {
-    getBikes: function() {
+const API = {
+    getBikes: function(cat) {
         return axios.get("api/bikes");
     },
     getUsers: function() {
@@ -14,3 +14,5 @@ export default {
         return axios.get("api/comments");
     },
 }
+
+export default API;

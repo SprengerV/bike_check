@@ -6,7 +6,8 @@ import Post from './Components/Post';
 import SideBar from './Components/SideBar';
 import DisplayPost from './Components/DisplayPost';
 import { Row, Col, Container } from 'react-bootstrap';
-import { getBikes } from './utils/API';
+import API from './utils/API';
+const { getBikes } = API;
 
 function App() {
   const [posts, setPosts] = useState([]);

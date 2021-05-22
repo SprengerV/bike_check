@@ -6,7 +6,6 @@ const cats = ['All', 'Mountain', 'Road', 'Gravel', 'Touring', 'BMX', 'Commuter',
 const SideBar = (props) => {
 
   return (
-  <Col xs="2">
     <Card>
       <Card.Header className="categoryHeader">
           Categories
@@ -17,7 +16,6 @@ const SideBar = (props) => {
         </>)}
       </Card.Body>
     </Card>
-  </Col>
   );
 }
 
