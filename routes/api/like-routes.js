@@ -1,6 +1,4 @@
 const router = require('express').Router();
-<<<<<<< HEAD
-=======
 const { Bike, Comment, Like, Photo, User  } = require('../../models');
 const withAuth = require('../../utils/auth');
 
@@ -51,6 +49,5 @@ router.delete('/:id', withAuth, (req, res) => {
         res.status(500).json(err);
     });
 });
->>>>>>> 02e514fdd62007ea55befebc886cf5d97ee8f8b7
 
 module.exports = router;
