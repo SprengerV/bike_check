@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Container, Accordion, Card, Button, FormControl } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 // import DipslayPost from "../DisplayPost/index"
@@ -21,6 +21,8 @@ const Post = () => {
         getMetadata();
     
     });
+
+    console.log(useEffect)
 
     const { user } = useAuth0();
 
