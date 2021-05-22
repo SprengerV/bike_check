@@ -10,14 +10,14 @@ class DisplayPost extends Component {
         bikes: []
     }
 
-    // componentDidMount() {
-    //     this.setState({ bikes: [] })
-    // }
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (prevState.bikes !== this.state.bikes) {
-    //         this.setState({ bikes: [] });
-    //     }
-    // }
+    componentDidMount() {
+        this.setState({ bikes: [] })
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.posts !== this.props.posts) {
+            this.setState({ bikes: this.props.posts });
+        }
+    }
 
 
     render() {
