@@ -8,8 +8,7 @@ import {useAuth0} from "@auth0/auth0-react"
 
 const Post = () => {
 
-    const { user, getAccessTokenSilently } = useAuth0(); 
-
+    const {user} = useAuth0();
 
     const [imageSelected, setImageSelected] = useState("")
     const [postTitle, setPostTitle]= useState("");
@@ -58,19 +57,11 @@ const Post = () => {
         })
     }
 
-    const fetchData = async() => {
-        const token = await getAccessTokenSilently();
-
-        console.log(token);
-
-    }
-
-    useEffect( () => { fetchData();}, [] );
-    
-
     // console.log(postTitle)
-   
-    
+
+
+
+
 
     return (
         <Col xs="10" className="ms-auto me-auto">
