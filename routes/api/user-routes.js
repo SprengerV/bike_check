@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Bike, Comment, Like, Photo, User  } = require('../../models');
+const { Bike, Comment, Like, Photo, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // GET all users
@@ -12,11 +12,11 @@ router.get('/', (req, res) => {
             'avatar',
         ],
     })
-    .then(userData => res.json(userData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(userData => res.json(userData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // GET a single user by ID
@@ -50,57 +50,85 @@ router.get('/:id', (req, res) => {
             }
         ]
     })
-    .then(userData => {
-        if (!userData) {
-            res.status(404).json({ message: "No user found with that ID" });
-            return;
-        }
-        res.json(userData);
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(userData => {
+            if (!userData) {
+                res.status(404).json({ message: "No user found with that ID" });
+                return;
+            }
+            res.json(userData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // PUT for user updates
 router.put('/:id', withAuth, (req, res) => {
-    User.update(req.body, {
-        individualHooks: true,
+    User.findOne({
         where: {
             id: req.params.id
         }
-    })
-    .then(userData => {
-        if (!userData) {
-            res.status(400).json({ message: "No user found with that ID" });
+    }).then(userData => {
+        if (userData.userId !== req.user.sub) {
+            res.status(403).json({ message: "Unauthorized action" });
+            return;
         }
-        res.json(userData);
-    })
-    .catch(err => {
+        User.update(req.body, {
+            individualHooks: true,
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(userData => {
+                if (!userData) {
+                    res.status(400).json({ message: "No user found with that ID" });
+                }
+                res.json(userData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    }).catch(err => {
         console.log(err);
         res.status(500).json(err);
     });
 });
 
+
 // Delete a user
 router.delete('/:id', withAuth, (req, res) => {
-    User.destroy({
+    User.findOne({
         where: {
             id: req.params.id
         }
-    })
-    .then(userData => {
-        if (!userData) {
-            res.status(404).json({ message: "No user found with that ID" });
+    }).then(userData => {
+        if (userData.userId !== req.user.sub) {
+            res.status(403).json({ message: "Unauthorized action" });
             return;
         }
-        res.json(userData);
-    })
-    .catch(err => {
+        User.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(userData => {
+                if (!userData) {
+                    res.status(404).json({ message: "No user found with that ID" });
+                    return;
+                }
+                res.json(userData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    }).catch(err => {
         console.log(err);
         res.status(500).json(err);
     });
 });
+
 
 module.exports = router;
