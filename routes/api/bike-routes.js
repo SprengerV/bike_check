@@ -168,12 +168,12 @@ router.get('/:id', (req, res) => {
 
 
 // POST create new Bike post
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
     Bike.create({
         title: req.body.title,
         body: req.body.body,
         category: req.body.category,
-        userId: req.body.userId
+        userId: req.user.sub
     })
         .then(bikeData => res.json(bikeData))
         .catch(err => {

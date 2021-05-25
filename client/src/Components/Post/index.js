@@ -6,7 +6,7 @@ import { Image } from "cloudinary-react";
 import API from "../../utils/API";
 import { useAuth0 } from "@auth0/auth0-react"
 
-const Post = () => {
+const Post = ({setModalImage}) => {
 
     const { user, getAccessTokenSilently } = useAuth0();
 
@@ -46,7 +46,10 @@ const Post = () => {
                     title: postTitle,
                     body: postBody,
                     category: categorySelected,
-                    userId: user.sub
+                    // userId: user.sub
+                },
+                {
+                    headers: {'Authorization': `Bearer ${token}`}
                 }
             ).then((response) => {
                 returnedImages.map((image, index) => (
@@ -55,8 +58,11 @@ const Post = () => {
                         
                         {
                             url: image.data.url,
-                            userId: user.sub,
+                            // userId: user.sub,
                             bikeId: response.data.id
+                        },
+                        {
+                            headers: {'Authorization': `Bearer ${token}`}
                         }
                     ).then((res) => {
                         console.log(res)
@@ -110,9 +116,9 @@ const Post = () => {
                                 }} />
                                 <div className="row">
                                     {returnedImages !== 0 ? returnedImages.map((image, index) => (
-
+                                        <div onClick={()=> setModalImage(image.data.url)}>
                                         <img className="previewImages" key={index} src={image.data.url} />
-
+                                        </div>
                                     ))
                                         : <br />}
                                 </div>

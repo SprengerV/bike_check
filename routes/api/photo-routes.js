@@ -41,10 +41,10 @@ router.get('/:id', (req, res) => {
 
 
 // POST a new photo
-router.post('/',  (req, res) => {
+router.post('/', withAuth, (req, res) => {
     Photo.create({
         url: req.body.url,
-        userId: req.body.userId,
+        userId: req.user.sub,
         bikeId: req.body.bikeId
     })
         .then(photoData => res.json(photoData))
