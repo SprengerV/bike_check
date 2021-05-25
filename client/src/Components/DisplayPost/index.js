@@ -20,13 +20,15 @@ class DisplayPost extends Component {
     }
 
 
+
     render() {
+        // console.log(this.state.bikes)
         return (
             <div>
                 {this.state.bikes.map((bike, index) => (
                     <Card key={index}>
-                        <Card.Header className='text-center bg-danger text-white'>
-                            {bike.title}
+                        <Card.Header id={bike.id} className='text-center bg-danger text-white'>
+                            {bike.title} 
                         </Card.Header>
                         <Card.Body>
                             <div className="d-flex flex-column justify-content-center">

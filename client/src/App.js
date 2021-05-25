@@ -13,7 +13,7 @@ const { getBikes } = API;
 function App() {
   const {isAuthenticated } = useAuth0();
   const [posts, setPosts] = useState([]);
-  console.log(posts.data)
+  // console.log(posts.data)
 
   const getPosts = (cat) => {
     getBikes(cat)

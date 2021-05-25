@@ -4,34 +4,43 @@ import { Col, Container, Accordion, Card, Button, DropdownButton, Dropdown, Form
 import Axios from "axios";
 import { Image } from "cloudinary-react";
 import API from "../../utils/API";
-import {useAuth0} from "@auth0/auth0-react"
+import { useAuth0 } from "@auth0/auth0-react"
 
 const Post = () => {
 
-    const {user} = useAuth0();
+    const { user, getAccessTokenSilently } = useAuth0();
 
     const [imageSelected, setImageSelected] = useState("")
-    const [postTitle, setPostTitle]= useState("");
-    const [postBody, setPostBody]= useState("");
-    const [categorySelected, setCategorySelected]= useState("");
-    
+    const [postTitle, setPostTitle] = useState("");
+    const [postBody, setPostBody] = useState("");
+    const [categorySelected, setCategorySelected] = useState("");
+    const [returnedImages, setReturnedImages] = useState([]);
+    // console.log(imageSelected);
+    console.log(returnedImages);
 
-
-    const uploadImage = () => {
+    const uploadImage = (input) => {
         const photoData = new FormData();
-        photoData.append('file', imageSelected);
+        photoData.append('file', input.target.files[0]);
         photoData.append("upload_preset", "fnin4syl");
-
-
-
 
         Axios.post(
             "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
             photoData
         ).then((data) => {
+            setReturnedImages(arr => [...arr, data])
+            console.log(returnedImages)
+        });
+    }
 
 
-            Axios.post(
+
+    const uploadPost = async () => {
+
+        const token = await getAccessTokenSilently();
+        console.log(token)
+
+
+        Axios.post(
                 "api/bikes",
                 {
                     title: postTitle,
@@ -40,21 +49,24 @@ const Post = () => {
                     userId: user.sub
                 }
             ).then((response) => {
-                
-                Axios.post(
-                    "api/photos",
-                    {
-                        url: data.data.url,
-                        userId: user.sub,
-                        bikeId: response.data.id
-                    }
-                ).then((res) => {
-                    console.log(res)
-                    window.location.reload()
-                })
+                returnedImages.map((image, index) => (
+                    Axios.post(
+                        "api/photos",
+                        
+                        {
+                            url: image.data.url,
+                            userId: user.sub,
+                            bikeId: response.data.id
+                        }
+                    ).then((res) => {
+                        console.log(res)
+                        window.location.reload()
+                    })
+
+                ))
+
             })
 
-        })
     }
 
     // console.log(postTitle)
@@ -93,11 +105,19 @@ const Post = () => {
                                 <br />
                                 <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
                                 <input style={{ visibility: 'hidden' }} id="files" type="file" onChange={(event) => {
-                                    setImageSelected(event.target.files[0]);
+                                    uploadImage(event)
+
                                 }} />
+                                <div className="row">
+                                    {returnedImages !== 0 ? returnedImages.map((image, index) => (
+
+                                        <img className="previewImages" key={index} src={image.data.url} />
+
+                                    ))
+                                        : <br />}
+                                </div>
                                 <br />
-                                <br />
-                                <Button variant="danger" onClick={uploadImage} >Post</Button>
+                                <Button variant="danger" onClick={uploadPost} >Post</Button>
                             </Container>
                             <Container className="col-9">
                                 <FormControl id="postTitle" placeholder="Title" onChange={(event) => {
