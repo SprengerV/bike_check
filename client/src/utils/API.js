@@ -13,6 +13,9 @@ const API = {
     getComments: function() {
         return axios.get("api/comments");
     },
+    getLikes: function(bikeId) {
+        return axios.get(`api/likes/${bikeId}`);
+    }
 }
 
 export default API;

@@ -9,6 +9,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 import API from './utils/API';
 const { getBikes } = API;
 
+
 function App() {
   const [posts, setPosts] = useState([]);
 
@@ -34,7 +35,12 @@ function App() {
             <Post/>
           </Row>
           <Row>
-            <DisplayPost posts={ posts }/>
+            { posts.map((post, i) =>
+              <DisplayPost 
+                key={ i }
+                post={ post }
+              />
+            ) }
           </Row>
         </Col>
       </Container>  
