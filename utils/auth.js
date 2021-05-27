@@ -1,6 +1,14 @@
 const jwt = require('express-jwt');
 const jwtConfig = require('../config/jwt');
+const { PERMISSIONS } = require('./roles')
 
 const withAuth = jwt(jwtConfig);
-console.log(withAuth);
-module.exports = withAuth;
+
+const requestorIsOwner = (objectUserId, requestUser) => {
+    return objectUserId === requestUser.sub;
+};
+
+const requestorIsAdmin = (requestUser) => {
+    return requestUser.permissions?.includes(PERMISSIONS.ADMIN);
+};
+module.exports = {withAuth, requestorIsOwner, requestorIsAdmin};

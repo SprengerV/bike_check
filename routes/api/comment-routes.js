@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Bike, Comment, Like, Photo, User } = require('../../models');
 const withAuth = require('../../utils/auth');
+const { PERMISSIONS } = require('../../utils/roles');
 
 
 // GET all comments
@@ -76,7 +77,7 @@ router.delete('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(commentData => {
-        if (commentData.userId !== req.user.sub) {
+        if (commentData.userId !== req.user.sub|| !req.user.permissions?.includes(PERMISSIONS.ADMIN)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }
