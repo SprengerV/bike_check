@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { Bike, Comment, Like, Photo, User  } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { Photo } = require('../../models');
+const { requestorIsNotOwner, withAuth } = require('../../utils/auth');
 
 // Get all photos
 router.get('/', (req, res) => {
@@ -13,11 +13,11 @@ router.get('/', (req, res) => {
             'uploaded',
         ],
     })
-    .then(photoData => res.json(photoData))
-    .catch(err => {
-        console.log(err);
-        res.status(400).json(err);
-    });
+        .then(photoData => res.json(photoData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
 });
 
 
@@ -32,48 +32,61 @@ router.get('/:id', (req, res) => {
             'uploaded',
         ],
     })
-    .then(photoData => res.json(photoData))
-    .catch(err => {
-        console.log(err);
-        res.status(400).json(err);
-    });
+        .then(photoData => res.json(photoData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
 });
 
 
 // POST a new photo
-router.post('/', (req, res) => {
+router.post('/', withAuth, (req, res) => {
     Photo.create({
         url: req.body.url,
-        userId: req.body.userId,
+        userId: req.user.sub,
         bikeId: req.body.bikeId
     })
-    .then(photoData => res.json(photoData))
-    .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
-    });
+        .then(photoData => res.json(photoData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 // PUT to update a photo
 router.put('/:id', withAuth, (req, res) => {
-    Photo.update(
-        {
-            url: req.body.url
-        },
-        {
-            where: {
-                id: req.params.id
-            }
+    Photo.findOne({
+        where: {
+            id: req.params.id
         }
-    )
-    .then(photoData => {
-        if (!photoData) {
-            res.status(404).json({ message: "No photo found" });
+    }).then(photoData => {
+        if (requestorIsNotOwner(photoData.userId, req.user)) {
+            res.status(403).json({ message: "Unauthorized action" });
             return;
         }
-        res.json(photoData[1]);
-    })
-    .catch(err => {
+        Photo.update(
+            {
+                url: req.body.url
+            },
+            {
+                where: {
+                    id: req.params.id
+                }
+            }
+        )
+            .then(photoData => {
+                if (!photoData) {
+                    res.status(404).json({ message: "No photo found" });
+                    return;
+                }
+                res.json(photoData[1]);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    }).catch(err => {
         console.log(err);
         res.status(500).json(err);
     });
@@ -82,19 +95,32 @@ router.put('/:id', withAuth, (req, res) => {
 
 // DELETE a photo
 router.delete('/:id', withAuth, (req, res) => {
-    Photo.destroy({
+    Photo.findOne({
         where: {
             id: req.params.id
         }
-    })
-    .then(photoData => {
-        if (!photoData) {
-            res.status(404).json({ message: "No photo found" });
+    }).then(photoData => {
+        if (requestorIsNotOwner(photoData.userId, req.user)) {
+            res.status(403).json({ message: "Unauthorized action" });
             return;
         }
-        res.json(photoData);
-    })
-    .catch(err => {
+        Photo.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+            .then(photoData => {
+                if (!photoData) {
+                    res.status(404).json({ message: "No photo found" });
+                    return;
+                }
+                res.json(photoData);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json(err);
+            });
+    }).catch(err => {
         console.log(err);
         res.status(500).json(err);
     });
