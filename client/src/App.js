@@ -10,6 +10,7 @@ import API from './utils/API';
 import { useAuth0 } from "@auth0/auth0-react"
 const { getBikes } = API;
 
+
 function App() {
   const {isAuthenticated } = useAuth0();
   const [posts, setPosts] = useState([]);
@@ -38,7 +39,12 @@ function App() {
             
           </Row>
           <Row>
-            <DisplayPost posts={posts.data} />
+            { posts.map((post, i) =>
+              <DisplayPost 
+                key={ i }
+                post={ post }
+              />
+            ) }
           </Row>
         </Col>
       </Container>
