@@ -20,10 +20,16 @@ class DisplayPost extends Component {
         }
     }
 
+   
+
+    
+
 
 
     render() {
-        // console.log(this.state.bikes)
+     
+       
+
 
         return (
             <div>
@@ -37,11 +43,18 @@ class DisplayPost extends Component {
                                 <Carousel fade className="displayCarousel">
 
                                     {bike.photos.map((photo, index) => (
-                                        <CarouselItem  onClick={()=> this.props.setModalImage(photo.url)}className="d-flex justify-content-center">
-                                            <Image key={index}
-                                                className="displayPic d-block "
+                                        <CarouselItem  
+                                            className="d-flex imageSelector justify-content-center">
+                                            <Image
+                                            onClick={(e)=> {
+                                                e.preventDefault();
+                                                this.props.setModalImage(photo.url)
+                                              
+                                            }}
+                                                className="displayImage"
+                                                key={index}
                                                 cloudName="dply85wun"
-                                                publicId={photo.url} 
+                                                publicId={photo.url}
                                                 alt={index}
                                                 style={{ height: '600px' }}
                                                  />

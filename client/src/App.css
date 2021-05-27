@@ -90,11 +90,14 @@ label.photoUploadBtn {
 }
 
 img.previewImages {
-  width: 100px;
-  height: 75px;
+  width: 80px;
+  height: 80px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
+  cursor: pointer;
+  display: inline;
+  margin: 10px;
 }
 
 
@@ -115,8 +118,20 @@ span.carousel-control-prev-icon{
 background-image : url("./images/previous-arrow.png");
 }
 
-div.carousel-item {
-  position: unset;
+div.carousel-item:active {
+  z-index: 0;
+}
+
+.displayCarousel {
+  z-index: 0;
+}
+
+.imageSelector::after {
+  position: relative;
+}
+.displayImage {
+  cursor: pointer;
+  display: inline
 }
 
 /* ------------------------------Modal Styles----------------------- */
@@ -129,6 +144,7 @@ div.carousel-item {
   height: 100%;
   background: rgba(0,0,0,0.5);
   z-index:inherit;
+  
 }
 .backdrop img {
   display: block;
