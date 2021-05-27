@@ -1,8 +1,11 @@
 import axios from "axios";
 
 const API = {
-    getBikes: function(cat) {
-        return axios.get("api/bikes");
+    getBikes: function() {
+        return axios.get(`api/bikes`);
+    },
+    getBikeCat: function(cat) {
+        return axios.get(`api/bikes/${cat}`)
     },
     getUsers: function() {
         return axios.get("api/users");

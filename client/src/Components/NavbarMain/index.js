@@ -8,9 +8,9 @@ import AuthenticationButton from '../authenticationButton';
 import { useAuth0 } from "@auth0/auth0-react"
 import api from '../../controllers/api';
 
-
 const NavbarMain = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+
 
   useEffect(async () => {
     if (isAuthenticated) {
@@ -18,6 +18,7 @@ const NavbarMain = () => {
       api.userCreate(user, token);
     }
   }, [user]);
+
 
   return (
     <Container className="p-0" fluid={true}>
@@ -40,7 +41,7 @@ const NavbarMain = () => {
       </Navbar>
       {isAuthenticated ?
         <h1 className="text-center userName">{user.nickname}</h1>
-        : <div />
+        : <div className="m-0 p-0" />
       }
 
     </Container>
