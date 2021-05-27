@@ -23,19 +23,6 @@ router.get('/', (req, res) => {
         });
 });
 
-router.get('/:id', (req, res) => {
-    Like.findAll({
-        where: {
-            bikeId: req.params.id
-        }
-    })
-    .then(data => res.json(data))
-    .catch(err => {
-        console.error(err);
-        res.status(400).json(err);
-    });
-});
-
 // POST a like
 router.post('/', withAuth, (req, res) => {
     Like.create({
@@ -53,8 +40,7 @@ router.post('/', withAuth, (req, res) => {
 router.delete('/:id', withAuth, (req, res) => {
     Like.findOne({
         where: {
-            bikeId: req.body.bikeId,
-            userId: req.body.userId
+            id: req.params.id
         }
     }).then(likeData => {
         if (likeData.userId !== req.user.sub) {

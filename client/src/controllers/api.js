@@ -73,10 +73,10 @@ const delComment = (userId, token, comm) => {
         }
     });
 };
-const like = (userId, token, bikeId) => {
+const like = (userId, token, postId) => {
     return axios.post('/post/like', {
         userId,
-        bikeId
+        postId
     },
     {
         headers: {
@@ -84,10 +84,10 @@ const like = (userId, token, bikeId) => {
         }
     });
 };
-const delLike = (userId, token, bikeId) => {
+const delLike = (userId, token, postId) => {
     return axios.delete('/post/like', {
         userId,
-        bikeId
+        postId
     },
     {
         headers: {
