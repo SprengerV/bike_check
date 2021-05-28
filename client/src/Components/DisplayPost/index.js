@@ -4,6 +4,7 @@ import { Accordion, Card, Button, FormControl, Carousel, CarouselItem } from 're
 import { Image } from "cloudinary-react";
 
 
+
 class DisplayPost extends Component {
 
     state = {
@@ -20,20 +21,23 @@ class DisplayPost extends Component {
     }
 
 
+
     render() {
+        // console.log(this.state.bikes)
+
         return (
             <div>
                 {this.state.bikes.map((bike, index) => (
                     <Card key={index}>
-                        <Card.Header className='text-center bg-danger text-white'>
-                            {bike.title}
+                        <Card.Header id={bike.id} className='text-center bg-danger text-white'>
+                            {bike.title} 
                         </Card.Header>
                         <Card.Body>
                             <div className="d-flex flex-column justify-content-center">
                                 <Carousel fade className="displayCarousel">
 
                                     {bike.photos.map((photo, index) => (
-                                        <CarouselItem className="d-flex justify-content-center">
+                                        <CarouselItem  onClick={()=> this.props.setModalImage(photo.url)}className="d-flex justify-content-center">
                                             <Image key={index}
                                                 className="displayPic d-block "
                                                 cloudName="dply85wun"
