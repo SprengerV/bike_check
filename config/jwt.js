@@ -14,6 +14,4 @@ const jwtConfig = {
     algorithms: ['RS256']
 };
 
-console.log(JSON.stringify(jwtConfig));
-
 module.exports = jwtConfig;

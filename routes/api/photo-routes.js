@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { Bike, Comment, Like, Photo, User } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { Photo } = require('../../models');
+const { requestorIsNotOwner, withAuth } = require('../../utils/auth');
 
 // Get all photos
 router.get('/', (req, res) => {
@@ -61,7 +61,7 @@ router.put('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(photoData => {
-        if (photoData.userId !== req.user.sub) {
+        if (requestorIsNotOwner(photoData.userId, req.user)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }
@@ -100,7 +100,7 @@ router.delete('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(photoData => {
-        if (photoData.userId !== req.user.sub) {
+        if (requestorIsNotOwner(photoData.userId, req.user)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }

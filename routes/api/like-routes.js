@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { Bike, Comment, Like, Photo, User } = require('../../models');
-const withAuth = require('../../utils/auth');
+const { Like, User } = require('../../models');
+const { requestorIsNotOwner, withAuth } = require('../../utils/auth');
 
 // GET all likes
 router.get('/', (req, res) => {
@@ -43,7 +43,7 @@ router.delete('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(likeData => {
-        if (likeData.userId !== req.user.sub) {
+        if (requestorIsNotOwner(likeData.userId, req.user)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }
