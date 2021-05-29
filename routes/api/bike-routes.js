@@ -229,7 +229,7 @@ router.delete('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(bikeData => {
-        if (requestorIsNotOwner(bikeData.userId, req.user) || requestorIsNotAdmin(req.user)) {
+        if (requestorIsNotOwner(bikeData.userId, req.user) && requestorIsNotAdmin(req.user)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }
