@@ -18,6 +18,28 @@ const API = {
     },
     getLikes: function(bikeId) {
         return axios.get(`api/likes/${bikeId}`);
+    },
+    delLike: function(userId, token, bikeId) {
+        return axios.delete('/api/likes', {
+            userId,
+            bikeId
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+    },
+    like: function(userId, token, bikeId) {
+        return axios.post('/api/likes', {
+            userId,
+            bikeId
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
     }
 }
 

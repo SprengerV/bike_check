@@ -14,17 +14,22 @@ const { getBikes } = API;
 function App() {
   const {isAuthenticated } = useAuth0();
   const [posts, setPosts] = useState([]);
+  const [cat, setCat] = useState('all');
+
   console.log(posts.data)
 
   const getPosts = (cat) => {
     getBikes(cat)
-      .then(res => setPosts(res))
+      .then(res => {
+        setCat(cat);
+        setPosts([...res.data])
+      })
       .catch(err => setPosts([err]));
   }
 
   useEffect(() => {
-    if (posts.length === 0) getPosts('all');
-  }, [posts]);
+    getPosts('all');
+  }, [cat]);
 
   return (
     <Router>

@@ -17,31 +17,17 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:id', (req, res) => {
-    Like.findAll({
-        where: {
-            bikeId: req.params.id
-        }
-    })
-    .then(data => res.json(data))
-    .catch(err => {
-        console.error(err);
-        res.status(400).json(err);
-    });
-});
-
 // POST a like
 router.post('/', withAuth, (req, res) => {
     Like.create({
         bikeId: req.body.bikeId,
         userId: req.body.userId
     })
-    .then(likeData => res.json(likeData))
-    .catch(err => {
-        res.status(400).json(err);
-    });
+        .then(likeData => res.status(200).json(likeData))
+        .catch(err => {
+            res.status(400).json(err);
+        });
 });
-
 
 // DELETE a like
 router.delete('/', withAuth, (req, res) => {
@@ -51,17 +37,32 @@ router.delete('/', withAuth, (req, res) => {
             userId: req.body.userId
         }
     })
-    .then(likeData => {
-        if (!likeData) {
-            res.status(404).json({ message: "No like found" });
-            return;
+        .then(likeData => {
+            if (!likeData) {
+                res.status(404).json({ message: "No like found" });
+                return;
+            }
+            res.status(200).json(likeData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
+router.get('/:id', (req, res) => {
+    Like.findAll({
+        where: {
+            bikeId: req.params.id
         }
-        res.json(likeData);
     })
+    .then(data => res.status(200).json(data))
     .catch(err => {
-        console.log(err);
-        res.status(500).json(err);
+        console.error(err);
+        res.status(400).json(err);
     });
 });
+
+
 
 module.exports = router;

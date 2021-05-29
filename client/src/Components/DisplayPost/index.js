@@ -1,58 +1,37 @@
-import React, { Component, useEffect, useState, useCallback } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import { Accordion, Card, Button, FormControl, Carousel, CarouselItem } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import { Image } from "cloudinary-react";
-import { like, delLike } from '../../controllers/api';
+import API from '../../utils/API';
 import { useAuth0 } from '@auth0/auth0-react';
-import { getLikes } from '../../utils/API';
+
+const { like, delLike } = API;
 
 const DisplayPost = (props) => {
-  const { isAuthenticated } = useAuth0;
-  const [likes, setLikes] = useState([]);
-  const [liked, setLiked] = useState(false)
   const [bike, setBike] = useState(props.post);
+  const [liked, setLiked] = useState(false);
 
-  const { user, getAccessTokenSilently } = useAuth0();
-  
-  const didLike = useCallback((likes) => {
-    const did = likes.filter((item) => {
-      return item.userId === user.sub;
-    })
-    did.length > 0
-      ? setLiked(true)
-      : setLiked(false);
-  }, [user.sub]);
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     setBike(props.post);
-    getLikes(props.post.id)
-      .then(res => {
-        setLikes(res.data);
-        didLike(res.data);
-      });
-  }, [bike, user.sub, props, didLike]);
+    setLiked(props.post.likes.some(({ userId }) => userId.includes(user.sub)));
+  }, [user, props]);
 
-  const likeClass = () => {
-    return (
-      liked
-        ? 'primary'
-        : 'danger'
-    );
-  };
   const likeHandler = () => {
-    if (isAuthenticated) {
-      const token = getAccessTokenSilently();
-      if (liked === false) {
-        like(user.sub, token, props.post.id);
-        setLiked(true);
-      }
-      if (liked === true) {
-        delLike(user.sub, token, props.post.id);
-        setLiked(false)
-      }
-    }
-  }
-  
+    getAccessTokenSilently()
+      .then(token => {  
+        console.log(token)
+        liked
+          ? delLike(user.sub, token, bike.id)
+            .then(res => setLiked(res.status !== "ok"))
+            .catch(err => console.log(err))
+          : like(user.sub, token, bike.id)
+            .then(res => setLiked(res.status === "ok"))
+            .catch(err => console.log(err));
+      })
+      .catch(err => console.log(err));
+  };  
 
   return (
     <div>
@@ -63,7 +42,7 @@ const DisplayPost = (props) => {
         <Card.Body>
           <div className="d-flex flex-column justify-content-center">
             <Carousel fade className="displayCarousel">
-              { bike.photos.map((photo, index) => (
+              { bike.photos && bike.photos.map((photo, index) => (
                 <CarouselItem className="d-flex justify-content-center">
                   <Image key={index}
                     className="displayPic d-block "
@@ -78,10 +57,10 @@ const DisplayPost = (props) => {
             <div>
               <div className="row">
                 <div className="col-2 row">
-                  <h3>{ bike.user.userName }</h3>
+                  <h3>{ bike.user && bike.user.userName }</h3>
                   <div className="col-5">
-                    <Button onClick={ likeHandler }variant={ likeClass }>Like</Button>
-                    <p className="likeCount">{ likes.length }</p>
+                    { isAuthenticated ? <Button onClick={ likeHandler } id={ `like${props.post.id}` } variant={ liked ? 'primary' : 'danger' }>Like</Button> : <div/> }
+                    <p className="likeCount">{ bike.likes && bike.likes.length }</p>
                   </div>
                 </div>
                 <div className="col-10">
