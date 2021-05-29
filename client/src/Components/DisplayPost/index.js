@@ -41,7 +41,7 @@ const DisplayPost = (props) => {
                     <Card.Header id={bike.id} className='bg-danger text-white'>
                             <div className='d-flex flex-row justify-content-between'>
                             <div></div>
-                            <div>{bike.title + " " + permissions}</div>
+                            <div>{bike.title}</div>
                             <div>
                                 {(user?.sub === bike?.userId || permissions.includes("admin")) ? 
                                 <div className="dropdown">
