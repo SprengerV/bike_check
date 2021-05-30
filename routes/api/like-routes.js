@@ -25,45 +25,44 @@ router.get('/', (req, res) => {
 
 // POST a like
 router.post('/', withAuth, (req, res) => {
-    Like.create({
-        bikeId: req.body.bikeId,
-        userId: req.user.sub
-    })
-        .then(likeData => res.json(likeData))
-        .catch(err => {
-            res.status(400).json(err);
-        });
+    Like.findOne({
+        where: {
+            bikeId: req.body.bikeId,
+            userId: req.user.sub
+        }
+    }).then(likeData => {
+        if (likeData) {
+            res.status(403).json({ message: "User already liked post" });
+            return;
+        }
+        Like.create({
+            bikeId: req.body.bikeId,
+            userId: req.user.sub
+        })
+            .then(likeData => res.json(likeData))
+            .catch(err => {
+                res.status(400).json(err);
+            });
+    });
 });
 
 
 // DELETE a like
 router.delete('/:id', withAuth, (req, res) => {
-    Like.findOne({
+    Like.destroy({
         where: {
-            id: req.params.id
+            bikeId: req.params.id,
+            userId: req.user.sub
         }
-    }).then(likeData => {
-        if (requestorIsNotOwner(likeData.userId, req.user)) {
-            res.status(403).json({ message: "Unauthorized action" });
+    })
+    .then(likeData => {
+        if (!likeData) {
+            res.status(404).json({ message: "No like found" });
             return;
         }
-        Like.destroy({
-            where: {
-                id: req.params.id
-            }
-        })
-            .then(likeData => {
-                if (!likeData) {
-                    res.status(404).json({ message: "No like found" });
-                    return;
-                }
-                res.json(likeData);
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json(err);
-            });
-    }).catch(err => {
+        res.json(likeData);
+    })
+    .catch(err => {
         console.log(err);
         res.status(500).json(err);
     });

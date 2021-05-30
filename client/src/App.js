@@ -13,10 +13,10 @@ import API from './utils/API';
 import { useAuth0 } from "@auth0/auth0-react"
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import { faThumbsUp, faThumbsDown, faComment } from '@fortawesome/free-regular-svg-icons'
+import { faThumbsUp, faThumbsDown, faComment, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 
 
-library.add( faEllipsisH, faThumbsUp, faThumbsDown, faComment);
+library.add( faEllipsisH, faThumbsUp, faThumbsDown, faComment, faTrashAlt);
 
 const { getBikes } = API;
 
