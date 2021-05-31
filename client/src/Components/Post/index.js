@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Col, Container, Accordion, Card, Button,  FormControl } from 'react-bootstrap';
+import { Col, Container, Accordion, Card, Button,  FormControl, Spinner } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react"
@@ -8,9 +8,10 @@ const Post = ({ setModalImage, getPosts }) => {
 
     const { getAccessTokenSilently } = useAuth0();
 
-    const [imageSelected, setImageSelected] = useState("")
-    const [returnedImages, setReturnedImages] = useState([]);
-    const [previewSource, setPreviewSource] = useState([]);
+    const [ imageSelected, setImageSelected ] = useState("")
+    const [ returnedImages, setReturnedImages ] = useState([]);
+    const [ previewSource, setPreviewSource ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
     let titleRef= useRef()
     let bodyRef= useRef()
     let categoryRef = useRef();
@@ -42,22 +43,28 @@ const Post = ({ setModalImage, getPosts }) => {
         }
     }
 
-    const uploadImage = ((e) => {
+    const uploadImage = async (e) => {
 
 
         const photoData = new FormData();
 
         photoData.append('file', e.target.files[0]);
         photoData.append("upload_preset", "fnin4syl");
-
-         Axios.post(
-            "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
+        setLoading(true)
+        try {
+         const data = await Axios
+            .post("https://api.cloudinary.com/v1_1/dply85wun/image/upload",
             photoData
         ).then((data) => {
             setReturnedImages(arr=> [...arr, data])
+            setLoading(false)
         })
+        
+    } catch (e) {
+        console.log(e);
+    }
 
-    });
+    };
 
 
 
@@ -158,6 +165,7 @@ const Post = ({ setModalImage, getPosts }) => {
                                 <br />
                                 <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
                                 <input style={{ visibility: 'hidden' }} id="files" type="file" onChange={(e) => uploadImage(e)} />
+                                {loading && <Spinner animation="border"/> }
                                 <div className="row">
                                     {returnedImages && (returnedImages.map((image, index) => (
                                         <div className="col-2" onClick={() => setModalImage(image.data.url)}>
