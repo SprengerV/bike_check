@@ -41,7 +41,7 @@ function App() {
         
         <Col cs="10">
           <Row>
-            {isAuthenticated ? <Post setModalImage={setModalImage}/> : <div/> }
+            {isAuthenticated ? <Post getPosts={getPosts} setModalImage={setModalImage}/> : <div/> }
             
           </Row>
           <Row>

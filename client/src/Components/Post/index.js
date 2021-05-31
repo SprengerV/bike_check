@@ -1,21 +1,23 @@
-import React, { useState } from 'react'
-import { Col, Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Form, Input } from 'react-bootstrap';
+import React, { useState, useRef } from 'react'
+import { Col, Container, Accordion, Card, Button,  FormControl } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Axios from "axios";
-import { Image } from "cloudinary-react";
-import API from "../../utils/API";
 import { useAuth0 } from "@auth0/auth0-react"
 
-const Post = ({ setModalImage }) => {
+const Post = ({ setModalImage, getPosts }) => {
 
-    const { user, getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
 
     const [imageSelected, setImageSelected] = useState("")
-    const [postTitle, setPostTitle] = useState("");
-    const [postBody, setPostBody] = useState("");
-    const [categorySelected, setCategorySelected] = useState("");
     const [returnedImages, setReturnedImages] = useState([]);
     const [previewSource, setPreviewSource] = useState([]);
+    let titleRef= useRef()
+    let bodyRef= useRef()
+    let categoryRef = useRef();
+    let accordionRef = useRef();
+    
+    
+    // console.log(imageSelected);
     // console.log(imageSelected);
     
     // console.log(returnedImages);
@@ -65,19 +67,22 @@ const Post = ({ setModalImage }) => {
 
     const uploadPost = async () => {
 
-        if (postBody && returnedImages && postTitle && categorySelected) {
+       
+
+        if (bodyRef.current.value && returnedImages && titleRef.current.value && categoryRef.current.value) {
+
+           
 
             const token = await getAccessTokenSilently();
-            console.log(token)
+         
 
 
             Axios.post(
                 "api/bikes",
                 {
-                    title: postTitle,
-                    body: postBody,
-                    category: categorySelected,
-                    // userId: user.sub
+                    title: titleRef.current.value,
+                    body: bodyRef.current.value,
+                    category: categoryRef.current.value,
                 },
                 {
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -97,11 +102,20 @@ const Post = ({ setModalImage }) => {
                         {
                             headers: { 'Authorization': `Bearer ${token}` }
                         }
-                    ).then((res) => {
-                        console.log(res)
-                        window.location.reload();
+                    ).then(
+                        getPosts("all"),
 
-                    })
+                        titleRef.current.value = "",
+                        bodyRef.current.value = "",
+                        categoryRef.current.value = "",
+                        setReturnedImages([]),
+                        
+                        
+                        
+
+
+                    )
+                       
                 })
             })
         }
@@ -116,24 +130,21 @@ const Post = ({ setModalImage }) => {
 
 
     return (
-        <Col xs="10" className="ms-auto me-auto">
-            <Accordion defaultActiveKey='0'>
+        <Col xs="12" className="ms-auto me-auto">
+            <Accordion  defaultActiveKey='0'>
                 <Card>
 
                     <Card.Header className='text-center bg-danger text-white'>
                         <Accordion.Toggle as={Button} eventKey='1'>
-                            Post
+                            Make a Post!
                             </Accordion.Toggle>
                     </Card.Header>
-                    <Accordion.Collapse eventKey='1'>
+                    <Accordion.Collapse ref={accordionRef} eventKey='1'>
                         <Card.Body className="row">
                             <Container className="col-3 d-flex flex-column justify-content-center">
 
                                 <label for="Category">Category</label>
-                                <select id="SelectCategory" title="Category" variant="outline-danger"
-                                    onChange={(event) => {
-                                        setCategorySelected(event.target.value)
-                                    }}>
+                                <select id="SelectCategory" title="Category" ref={categoryRef} variant="outline-danger">
                                     <option disabled selected >Select One</option>
                                     <option>Mountain</option>
                                     <option>Road</option>
@@ -155,16 +166,12 @@ const Post = ({ setModalImage }) => {
                                     )))}
                                 </div>
                                 <br />
-                                <Button type="button" variant="danger" onClick={uploadPost} >Post</Button>
+                                <Button type="button" variant="danger" eventKey='0' onClick={uploadPost} >Post</Button>
                             </Container>
                             <Container className="col-9">
-                                <FormControl id="postTitle" placeholder="Title" onChange={(event) => {
-                                    setPostTitle(event.target.value)
-                                }} />
+                                <FormControl id="postTitle" ref={titleRef} placeholder="Title" />
                                 <br />
-                                <FormControl as="textarea" rows="5" placeholder="About your bike..." onChange={(event) => {
-                                    setPostBody(event.target.value)
-                                }} />
+                                <FormControl as="textarea" rows="5" ref={bodyRef} placeholder="About your bike..." />
                             </Container>
                         </Card.Body>
                     </Accordion.Collapse>
