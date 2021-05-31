@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Accordion, Card, Button, FormControl, Carousel, CarouselItem, Dropdown } from 'react-bootstrap';
 import { Image } from "cloudinary-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { useAuth0 } from "@auth0/auth0-react";
 import jwt from 'jwt-decode'
 import axios from 'axios';
@@ -10,6 +10,7 @@ import axios from 'axios';
 const DisplayPost = (props) => {
     const [ bikes, setBikes ] = useState([]);
     const [ permissions, setPermissions ] = useState([]);
+    const [ commentText, setCommentText ] = useState("");
     const { user, getAccessTokenSilently } = useAuth0();
 
     useEffect(() => {
@@ -33,6 +34,50 @@ const DisplayPost = (props) => {
             props.getPosts("all");
         });
     };
+
+    const postComment = async (bikeId) => {
+        if(commentText){
+            const token = await getAccessTokenSilently();
+            axios.post('api/comments/', {
+                bikeId: bikeId,
+                body: commentText
+            }, {
+                headers: {'Authorization': `Bearer ${token}`}
+            }).then(() => {
+                setCommentText("");
+                props.getPosts();
+            });
+        }
+    }
+
+    const deleteComment = async (commentId) => {
+        const token = await getAccessTokenSilently();
+        axios.delete(`api/comments/${commentId}`,{
+            headers: {'Authorization': `Bearer ${token}`}
+        }).then(() => {
+            props.getPosts();
+        });
+    };
+
+    const updateLike = async (bikeId, likes) => {
+        const token = await getAccessTokenSilently();
+
+        if(likes.some((like) => like.userId === user.sub)) {
+            axios.delete(`api/likes/${bikeId}`, {
+                headers: {'Authorization': `Bearer ${token}`}
+            }).then(() => {
+                props.getPosts();
+            });
+        } else {
+            axios.post('api/likes/', {
+                bikeId: bikeId
+            }, {
+                headers: {'Authorization': `Bearer ${token}`}
+            }).then(() => {
+                props.getPosts();
+            });
+        }
+    }
        
     return (
         <div>
@@ -45,7 +90,7 @@ const DisplayPost = (props) => {
                             <div>
                                 {(user?.sub === bike?.userId || permissions.includes("admin")) ? 
                                 <div className="dropdown">
-                                    <FontAwesomeIcon style={{cursor: "pointer"}} classid="dropdownMenuButton1" data-bs-toggle="dropdown" icon={faEllipsisH}/>
+                                    <FontAwesomeIcon style={{cursor: "pointer"}} classid="dropdownMenuButton1" data-bs-toggle="dropdown" icon="ellipsis-h"/>
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li key={1} onClick={() => {deletePost(bike.id)}}><a className="dropdown-item" href="#">Delete</a></li>
                                     </ul>
@@ -75,25 +120,43 @@ const DisplayPost = (props) => {
                                 <div className="row">
                                     <div className="col-2 row">
                                         <h3>{bike.user.userName}</h3>
-                                        <div className="col-5">
-                                            <Button variant="danger">Like</Button>
-                                            <p className="likeCount">15</p>
-                                        </div>
-                                        <div className="col-5">
-                                            <Button variant="danger">Dislike</Button>
-                                            <p className="dislikeCount">2</p>
-                                        </div>
                                     </div>
                                     <div className="col-10">
                                         <p>{bike.body}</p>
                                     </div>
                                 </div>
-                                <Accordion defaultActiveKey='0'>
-                                    <Accordion.Toggle as={Button} eventKey='0'>
-                                        Comment
-                                </Accordion.Toggle>
+                                <Accordion>
+                                    <div className="d-flex flex-row justify-content-between align-items-center">
+                                        <div style={{cursor: "pointer"}} onClick={() => {updateLike(bike.id, bike.likes)}}> {bike.likes.some((like) => like.userId === user?.sub) ? <FontAwesomeIcon icon={faThumbsUp}/> : <FontAwesomeIcon icon={["far", "thumbs-up"]}/>} {bike.likes.length || " "}</div>
+                                        <div style={{cursor: "pointer"}}> <FontAwesomeIcon icon={["far", "thumbs-down"]}/></div>
+                                        <div style={{cursor: "pointer"}}>
+                                            <Accordion.Toggle style={{textDecoration: "none", color: "#000000", padding: 0}} as={Button} variant="link" eventKey='0'>
+                                                <FontAwesomeIcon icon={["far","comment"]}/> {bike.comments.length || 0}
+                                            </Accordion.Toggle>
+                                        </div>
+                                    </div>
                                     <Accordion.Collapse eventKey='0'>
-                                        <FormControl as="textarea" rows="5" placeholder="Your comment..." />
+                                        <div>
+                                            <div className="d-grid gap-2">
+                                                <FormControl style={{marginTop: "12px"}} value={commentText} onChange={e => setCommentText(e.target.value )} as="textarea" rows="3" placeholder="Write a comment..." />
+                                                <Button style={{marginBottom: "12px"}} size="sm" onClick={() => {postComment(bike.id)}} block>Post</Button>
+                                            </div>
+                                            <Card>
+                                                <Card.Header>Comments • {bike.comments.length || 0}</Card.Header>
+                                                {bike.comments.map((comment, index) => (
+                                                    <Card key={index} style={{margin: "12px"}}>
+                                                        <Card.Header className="d-flex flex-row justify-content-between">
+                                                            <div>{comment.user.userName}</div>
+                                                            <div></div>
+                                                            {(user?.sub === comment?.userId || permissions.includes("admin")) ? <div style={{cursor: "pointer"}} onClick={() => {deleteComment(comment.id)}}><FontAwesomeIcon icon={["far", "trash-alt"]}/></div> : <div></div>}
+                                                        </Card.Header>
+                                                        <Card.Body>
+                                                            <Card.Text>{comment.body}</Card.Text>
+                                                        </Card.Body>
+                                                    </Card> 
+                                                ))}
+                                            </Card>
+                                        </div>
                                     </Accordion.Collapse>
                                 </Accordion>
                             </div>
