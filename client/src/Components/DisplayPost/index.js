@@ -30,7 +30,7 @@ const DisplayPost = (props) => {
         axios.delete(`api/bikes/${postId}`,{
             headers: {'Authorization': `Bearer ${token}`}
         }).then(() => {
-            props.getPosts();
+            props.getPosts("all");
         });
     };
        

@@ -46,7 +46,7 @@ function App() {
           </Row>
           <Row>
           
-            <DisplayPost modalImage={modalImage} setModalImage={setModalImage} posts={posts.data} />
+            <DisplayPost modalImage={modalImage} setModalImage={setModalImage} getPosts={getPosts} posts={posts.data} />
           </Row>
         </Col>
         

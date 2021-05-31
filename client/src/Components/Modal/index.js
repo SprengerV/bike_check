@@ -10,16 +10,6 @@ const Modal = ({ modalImage, setModalImage }) => {
         }
     }
 
- 
-
-
-
-
-
-
-
-
-
     return (
         <div className="backdrop" onClick={(handleClick)}>
             <img src={modalImage} alt="modal popup" />
