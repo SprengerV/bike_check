@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, Card, Button, FormControl, Carousel, CarouselItem, Dropdown } from 'react-bootstrap';
+import { Accordion, Card, Button, FormControl, Carousel, CarouselItem } from 'react-bootstrap';
 import { Image } from "cloudinary-react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import { useAuth0 } from "@auth0/auth0-react";
-import jwt from 'jwt-decode'
+import moment from 'moment';
+import jwt from 'jwt-decode';
 import axios from 'axios';
 
 const DisplayPost = (props) => {
@@ -78,6 +79,42 @@ const DisplayPost = (props) => {
             });
         }
     }
+
+    const updateDislike = async (bikeId, dislikes) => {
+        const token = await getAccessTokenSilently();
+
+        if(dislikes.some((dislike) => dislike.userId === user.sub)) {
+            axios.delete(`api/dislikes/${bikeId}`, {
+                headers: {'Authorization': `Bearer ${token}`}
+            }).then(() => {
+                props.getPosts();
+            });
+        } else {
+            axios.post('api/dislikes/', {
+                bikeId: bikeId
+            }, {
+                headers: {'Authorization': `Bearer ${token}`}
+            }).then(() => {
+                props.getPosts();
+            });
+        }
+    }
+
+    const getDuration = (time) => {
+        const duration = moment.duration(moment().diff(moment(time)));
+        switch (true) {
+            case (duration.asSeconds() < 60):
+                return `${duration.seconds()}s`;
+            case (duration.asMinutes() < 60):
+                return `${duration.minutes()}m`;
+            case (duration.asHours() < 24):
+                return `${duration.hours()}h`;
+            case (duration.asDays() < 7):
+                return `${duration.hours()}h`;                  
+            default:
+                return `${duration.weeks()}w`;      
+        }
+    }
        
     return (
         <div>
@@ -128,7 +165,7 @@ const DisplayPost = (props) => {
                                 <Accordion>
                                     <div className="d-flex flex-row justify-content-between align-items-center">
                                         <div style={{cursor: "pointer"}} onClick={() => {updateLike(bike.id, bike.likes)}}> {bike.likes.some((like) => like.userId === user?.sub) ? <FontAwesomeIcon icon={faThumbsUp}/> : <FontAwesomeIcon icon={["far", "thumbs-up"]}/>} {bike.likes.length || " "}</div>
-                                        <div style={{cursor: "pointer"}}> <FontAwesomeIcon icon={["far", "thumbs-down"]}/></div>
+                                        <div style={{cursor: "pointer"}} onClick={() => {updateDislike(bike.id, bike.dislikes)}}> {bike.dislikes.some((dislike) => dislike.userId === user?.sub) ? <FontAwesomeIcon icon={faThumbsDown}/> : <FontAwesomeIcon icon={["far", "thumbs-down"]}/>} {bike.dislikes.length || " "}</div>
                                         <div style={{cursor: "pointer"}}>
                                             <Accordion.Toggle style={{textDecoration: "none", color: "#000000", padding: 0}} as={Button} variant="link" eventKey='0'>
                                                 <FontAwesomeIcon icon={["far","comment"]}/> {bike.comments.length || 0}
@@ -143,12 +180,12 @@ const DisplayPost = (props) => {
                                             </div>
                                             <Card>
                                                 <Card.Header>Comments • {bike.comments.length || 0}</Card.Header>
-                                                {bike.comments.map((comment, index) => (
+                                                {bike.comments.sort((a,b) => {return moment(b.created_at) - moment(a.created_at)}).map((comment, index) => (
                                                     <Card key={index} style={{margin: "12px"}}>
                                                         <Card.Header className="d-flex flex-row justify-content-between">
                                                             <div>{comment.user.userName}</div>
                                                             <div></div>
-                                                            {(user?.sub === comment?.userId || permissions.includes("admin")) ? <div style={{cursor: "pointer"}} onClick={() => {deleteComment(comment.id)}}><FontAwesomeIcon icon={["far", "trash-alt"]}/></div> : <div></div>}
+                                                            <div>{getDuration(comment.created_at)}{(user?.sub === comment?.userId || permissions.includes("admin")) ? <span style={{cursor: "pointer"}} onClick={() => {deleteComment(comment.id)}}> • <FontAwesomeIcon icon={["far", "trash-alt"]}/></span> : <span></span>}</div>
                                                         </Card.Header>
                                                         <Card.Body>
                                                             <Card.Text>{comment.body}</Card.Text>
