@@ -2,15 +2,14 @@ import React, { useState, useEffect, useRef } from "react";
 import Post from "../Post"
 import API from '../../utils/API';
 import './style.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileImage } from "@fortawesome/free-regular-svg-icons";
 import Axios from 'axios'
 
 
 import { useAuth0 } from '@auth0/auth0-react';
 import { Row, Col, Container } from 'react-bootstrap';
 import DisplayPost from "../DisplayPost";
-import axios from "axios";
 
 
 
@@ -18,22 +17,24 @@ import axios from "axios";
 const Profile = (props) => {
 
     const { getUsers } = API;
-    const { user } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
     const [userInfo, setUserInfo] = useState([])
     const [editPost, setEditPost] = useState(false)
-    const [location, setLocation] = useState('')
     const [bio, setBio] = useState('')
-    const userNameRef = useRef();
+    let bioRef = useRef();
+    let userNameRef = useRef();
+    let locationRef = useRef()
 
-    const [ imageSelected, setImageSelected ] = useState("")
-    const [ previewSource, setPreviewSource ] = useState("");
+    const [imageSelected, setImageSelected] = useState(null)
+    const [previewSource, setPreviewSource] = useState(null);
 
     const handleChangeEvent = (e) => {
         const file = e.target.files[0];
         setImageSelected(file)
 
         previewFile(file)
-        console.log(imageSelected)
+        // console.log(imageSelected);
+        // console.log(previewSource)
     }
 
 
@@ -46,12 +47,76 @@ const Profile = (props) => {
         }
     }
 
-    const updateUser = () => {
-        axios.put(`api/user/${props.match.params.id}`,
-        {
-            
+    const updateUser = async () => {
+
+        const photoData = new FormData();
+
+        const token = await getAccessTokenSilently();
+        photoData.append('file', imageSelected);
+        photoData.append("upload_preset", "fnin4syl");
+        if (imageSelected) {
+            try {
+                const data = await Axios
+                    .post("https://api.cloudinary.com/v1_1/dply85wun/image/upload",
+                        photoData
+                    ).then((data) => {
+
+                        Axios.put(`api/user/${props.match.params.id}`,
+                            {
+                                UserName: userNameRef.current.value,
+                                bio: bioRef.current.value,
+                                location: locationRef.current.value,
+                                avatar: data.data.url
+
+                            },
+                            {
+                                headers: { 'Authorization': `Bearer ${token}` }
+                            }
+                        ).then((res) => {
+
+                            userNameRef.current.value = ""
+                            bioRef.current.value = ""
+                            locationRef.current.value = ""
+                            setPreviewSource(null);
+                            setImageSelected(null);
+                            setEditPost(false)
+                            getPosts();
+                        })
+                    })
+
+            } catch (e) {
+                console.log(e)
+            }
+        } else {
+            try {
+                const data = await Axios
+
+                    .put(`api/user/${props.match.params.id}`,
+                        {
+                            UserName: userNameRef.current.value,
+                            bio: bioRef.current.value,
+                            location: locationRef.current.value,
+
+                        },
+                        {
+                            headers: { 'Authorization': `Bearer ${token}` }
+                        }
+                    ).then((res) => {
+
+                        userNameRef.current.value = ""
+                        bioRef.current.value = ""
+                        locationRef.current.value = ""
+                        setPreviewSource(null);
+                        setImageSelected(null);
+                        setEditPost(false)
+                        getPosts();
+                    })
+
+            } catch (e) {
+                console.log(e)
+            }
         }
-        )
+
     }
 
     const getPosts = () => {
@@ -63,7 +128,7 @@ const Profile = (props) => {
         }
     })
 
-    console.log(userInfo);
+    // console.log(userInfo);
 
 
     //    console.log(userInfo);
@@ -74,24 +139,32 @@ const Profile = (props) => {
                 <Col md="2">
                     <div className="profileDisplay card">
                         <div className="imageUploadDiv">
-                        <img className="profileImage card-img" src={userInfo.avatar} />
-                        
+
+                            {previewSource ? <img alt='uploaded profile display' label className="profileImage card-img" src={previewSource} /> : <img label alt='filer' className="profileImage card-img" src={userInfo.avatar} />}
                         </div>
+                        <label for="profilePic">
+                            <FontAwesomeIcon className="imageIcon" icon={faFileImage} size="5x" />
+                        </label>
+                        <input className="profilePicInput imageIcon" style={{ visibility: "hidden" }} onChange={(e) => (handleChangeEvent(e))} type="file" id="profilePic" />
+
                         <div className=' row card-title'>
                             <input className='userNameInput text-center' ref={userNameRef} defaultValue={userInfo.userName} />
                         </div>
                         <div className="text-center card-body">
                             <div className='row locationDiv card-text'>
                                 <label className="col-12" for="location">Location </label>
-                                <input type='location' className="locationInput" id='location' placeholder="city, state" />
-                             
+                                <input type='location' ref={locationRef} defaultValue={userInfo.location} className="locationInput" id='location' placeholder="city, state" />
+
                             </div>
                             <div className='row bioDiv card-text'>
-                                <label className="col-12"for="bio">Bio</label>
-                                <textarea maxlength="250" onChange={(e) => setBio(e.target.value)} placeholder="Tell us about yourself!" className="bioInput" id='bio'/>
+                                <label className="col-12" for="bio">Bio</label>
+                                <textarea maxlength="250" ref={bioRef} onChange={(e) => setBio(e.target.value)} placeholder="Tell us about yourself!" defaultValue={userInfo.bio} className="bioInput" id='bio' />
                                 <p className="text-left" >{bio.length}/250</p>
                             </div>
-                            <button className="editSave" onClick={() => setEditPost(false)}>Save</button>
+                            <div className="editButtonDiv">
+                                <button className="editSave" onClick={updateUser}>Save</button>
+                            </div>
+
 
                         </div>
 
@@ -101,7 +174,9 @@ const Profile = (props) => {
                 :
                 <Col md="2">
                     <div className="profileDisplay card">
-                        <img className="profileImage card-img" src={userInfo.avatar} />
+                        <div className="imageUploadDiv">
+                            <img className="profileImage card-img" alt='users profile' src={userInfo.avatar} />
+                        </div>
                         <div className='card-title'>
                             <h2 className='userName text-center'>
                                 {userInfo.userName}
@@ -109,14 +184,16 @@ const Profile = (props) => {
                         </div>
                         <div className="text-center card-body">
                             <div className='locationDiv card-text'>
-                                <label for="location">Location</label>
+                                <h4 className="cardSubTitle" for="location">Location</h4>
                                 <p id='location'>{userInfo.location}</p>
                             </div>
                             <div className='bioDiv card-text'>
-                                <label for="location">Bio</label>
+                                <h4 className="cardSubTitle" for="location">Bio</h4>
                                 <p id='location'>{userInfo.bio}</p>
                             </div>
-                            <button className="editSave" onClick={() => setEditPost(true)}>Edit</button>
+                            <div className="editButtonDiv">
+                                <button className="col-10 editSave" onClick={() => setEditPost(true)}>Edit</button>
+                            </div>
                         </div>
 
                     </div>

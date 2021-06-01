@@ -3,14 +3,13 @@ import { Col, Container, Accordion, Card, Button,  FormControl, Spinner } from '
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react"
+import "./style.css"
 
 const Post = ({ setModalImage, getPosts }) => {
 
     const { getAccessTokenSilently } = useAuth0();
 
-    const [ imageSelected, setImageSelected ] = useState("")
     const [ returnedImages, setReturnedImages ] = useState([]);
-    const [ previewSource, setPreviewSource ] = useState([]);
     const [ loading, setLoading ] = useState(false);
     let titleRef= useRef()
     let bodyRef= useRef()
@@ -18,31 +17,7 @@ const Post = ({ setModalImage, getPosts }) => {
     let accordionRef = useRef();
     
     
-    // console.log(imageSelected);
-    // console.log(imageSelected);
     
-    // console.log(returnedImages);
-
-  
-
-    const handleChangeEvent = (e) => {
-        const file = e.target.files[0];
-        setImageSelected(file)
-
-        previewFile(file)
-        console.log(imageSelected)
-    }
-
-
-    // console.log(imageSelected);
-    const previewFile = (file) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onloadend = () => {
-            setPreviewSource(arr => [...arr, reader.result])
-        }
-    }
-
     const uploadImage = async (e) => {
 
 
@@ -146,7 +121,7 @@ const Post = ({ setModalImage, getPosts }) => {
 
                                 <label for="Category">Category</label>
                                 <select id="SelectCategory" title="Category" ref={categoryRef} variant="outline-danger">
-                                    <option disabled selected >Select One</option>
+                                    <option disabled defaultValue >Select One</option>
                                     <option>Mountain</option>
                                     <option>Road</option>
                                     <option>Gravel</option>
@@ -159,16 +134,16 @@ const Post = ({ setModalImage, getPosts }) => {
                                 <br />
                                 <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
                                 <input style={{ visibility: 'hidden' }} id="files" type="file" onChange={(e) => uploadImage(e)} />
-                                {loading && <Spinner animation="border"/> }
-                                <div className="row">
+                                
+                                <div className="spinnerRow row">
+                                {loading && <Spinner className="spinner" animation="border"/> }
                                     {returnedImages && (returnedImages.map((image, index) => (
-                                        <div className="col-2" onClick={() => setModalImage(image.data.url)}>
+                                        <div className="prevImageDiv col-3" onClick={() => setModalImage(image.data.url)}>
                                             <img className="previewImages" key={index} src={image.data.url} />
                                         </div>
                                     )))}
                                 </div>
-                                <br />
-                                <Button type="button" variant="danger" eventKey='0' onClick={uploadPost} >Post</Button>
+                                <Button className="postButton" type="button" variant="danger" eventKey='0' onClick={uploadPost} >Post</Button>
                             </Container>
                             <Container className="col-9">
                                 <FormControl id="postTitle" ref={titleRef} placeholder="Title" />

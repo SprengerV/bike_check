@@ -5,26 +5,62 @@ div.profileDisplay {
     overflow: hidden;
 }
 
+
 img.profileImage {
     border-bottom: 5px solid #e04444;
     border-radius: 0;
-  
+    position: relative;
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    
+    
+}
+.imageIcon{
+    position: absolute;
+    margin: auto;
+    z-index: 1;
+    top: 15%;
+    left: 40%;
+    cursor: pointer;
+
 }
 
-div.locationDiv {
-    padding-bottom: 20px;
-    border-bottom: 5px solid #e04444;
-}
-div.bioDiv {
-    margin-bottom: 20px;
+/* edit display */
+
+div.imageUploadDiv {
+    display: flex;
+    height: 300px;
+    background-size: cover;
+    
 }
 
+
+input.profilePicInput {
+    margin:0;
+    padding: 0;
+    position: relative;
+
+}
 .userNameInput {
     font-family: Cubano;
     font-size: x-large;
     border: none;
     border-bottom: 5px solid #e04444;
+    margin-top:10px;
+    color: #a07c7c;
 }
+
+div.locationDiv {
+    padding-bottom: 20px;
+    
+}
+div.bioDiv {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+
 .locationInput {
     border: 3px solid #e04444;
     border-radius: 10px;
@@ -37,12 +73,33 @@ div.bioDiv {
 }
 
 
+.editSave {
+    border: none;
+    background-color: transparent;
+    color: #e04444;
+    font-family: Cubano;
+    font-size: large;
+}
+.editSave:hover {
+    text-shadow: 3px 2px #000;
+}
+/* saved styling */
 
+.cardSubTitle {
+    border-bottom: 4px solid #e04444;
+    border-radius: 15px;
+    padding-bottom: 5px;
+    
+    
 
+}
 
 h2.userName {
     font-family: Cubano;
-    color: #e04444;
+    color: white;
     padding-bottom: 3px;
+    border-bottom-left-radius:15px;
+    border-bottom-right-radius:15px;
+    background-color: #e04444;
     border-bottom: 5px solid #e04444;
 }

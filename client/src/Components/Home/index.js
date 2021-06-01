@@ -17,7 +17,7 @@ import { faThumbsUp, faThumbsDown, faComment, faTrashAlt } from '@fortawesome/fr
 
 library.add(faEllipsisH, faThumbsUp, faThumbsDown, faComment, faTrashAlt);
 
-const { getBikes } = API;
+
 
 const Home = ({setModalImage, modalImage}) => {
     const { isAuthenticated } = useAuth0();
@@ -25,16 +25,18 @@ const Home = ({setModalImage, modalImage}) => {
    
     // console.log(posts.data)
   
-    const getPosts = (cat) => {
-      getBikes(cat)
+    const getPosts = () => {
+      API.getBikes()
         .then(res => setPosts(res))
         .catch(err => setPosts([err]));
     }
 
   
     useEffect(() => {
-      if (posts.length === 0) getPosts('all');
+      if (posts.length === 0) getPosts();
     }, [posts]);
+
+    console.log(posts)
 
 
     return (

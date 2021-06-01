@@ -54,7 +54,7 @@ div.navButton-border:disabled {
 
 
 
-a.homeNav {
+.homeNav {
   text-decoration: none;
   color: white;
   font-family: Cubano;
@@ -63,7 +63,7 @@ a.homeNav {
   margin-left: 5px;
   padding: 30px;
 }
-a.homeNav:hover {
+.homeNav:hover {
   color: #e04444;
 }
 
@@ -77,29 +77,6 @@ div.categoryHeader {
   background-color: #e04444;
   color: white;
 }
-/* -------------------------post styling----------------------- */
-
-label.photoUploadBtn {
-  background-color: #e04444;
-  color: white;
-}
-
-.displayPic {
-  margin-left: 100px;
-
-}
-
-img.previewImages {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-bottom: 10px;
-  cursor: pointer;
-  display: inline;
-  margin: 10px;
-}
-
 
 
 

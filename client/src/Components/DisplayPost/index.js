@@ -131,7 +131,7 @@ const DisplayPost = (props) => {
                                     <div className="dropdown">
                                         <FontAwesomeIcon style={{ cursor: "pointer" }} classid="dropdownMenuButton1" data-bs-toggle="dropdown" icon="ellipsis-h" />
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                            <li key={1} onClick={() => { deletePost(bike.id) }}><a className="dropdown-item" href="#">Delete</a></li>
+                                            <li key={1} onClick={() => { deletePost(bike.id) }}><span className="dropdown-item" >Delete</span></li>
                                         </ul>
                                     </div> : <div></div>}
                             </div>
@@ -158,7 +158,7 @@ const DisplayPost = (props) => {
                             <div>
                                 <div className="row">
                                     <div className="col-2 row">
-                                        <h3>{bike.user.userName}</h3>
+                                        <h3><a href={`/${bike.userId}`} >{bike.user.userName}</a></h3>
                                     </div>
                                     <div className="col-10">
                                         <p>{bike.body}</p>

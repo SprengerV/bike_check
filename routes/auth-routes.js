@@ -4,6 +4,7 @@ const User = require('../models').User;
 
 router.post('/create', withAuth, (req, res) => {
     const user = req.body.user;
+    
     const createUser = (user) => {
         User
             .create({

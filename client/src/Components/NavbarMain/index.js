@@ -7,13 +7,16 @@ import { Link } from "react-router-dom"
 import AuthenticationButton from '../authenticationButton';
 import { useAuth0 } from "@auth0/auth0-react"
 import api from '../../controllers/api';
+// import API from '../../utils/API'
 
 const NavbarMain = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
 
+
   useEffect(async () => {
     if (isAuthenticated) {
+
       const token = await getAccessTokenSilently({ audience: 'bike-check' });
       api.userCreate(user, token);
     }

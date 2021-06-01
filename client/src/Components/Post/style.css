@@ -1,0 +1,40 @@
+.spinnerRow {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    margin: 0;
+    justify-content: center;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.spinner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: 0;
+}
+
+label.photoUploadBtn {
+    background-color: #e04444;
+    color: white;
+  }
+  
+  .displayPic {
+    margin-left: 100px;
+  
+  }
+  
+  img.previewImages {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 5px solid #e04444;
+    border-radius: 50%;
+    cursor: pointer;
+    display: inline;
+    margin: 0
+  }
+  
