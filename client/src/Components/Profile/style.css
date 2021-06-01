@@ -103,3 +103,22 @@ h2.userName {
     background-color: #e04444;
     border-bottom: 5px solid #e04444;
 }
+
+@media screen and (max-width: 400px) {
+    div.imageUploadDiv {
+        display: flex;
+        height: 150px;
+        background-size: cover;
+        
+    }
+    div.locationDiv {
+        padding-bottom: 5px;
+        
+    }
+    div.bioDiv {
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+    
+
+}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Post from "../Post"
+import Modal from '../Modal'
+
 import API from '../../utils/API';
 import './style.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -24,9 +26,13 @@ const Profile = (props) => {
     let bioRef = useRef();
     let userNameRef = useRef();
     let locationRef = useRef()
+   
 
     const [imageSelected, setImageSelected] = useState(null)
     const [previewSource, setPreviewSource] = useState(null);
+    const [modalImage, setModalImage] = useState(null)
+
+    console.log(userInfo)
 
     const handleChangeEvent = (e) => {
         const file = e.target.files[0];
@@ -128,15 +134,10 @@ const Profile = (props) => {
         }
     })
 
-    // console.log(userInfo);
-
-
-    //    console.log(userInfo);
-
     return (
         <Container fluid={true} className="row ">
             {editPost ?
-                <Col md="2">
+                <Col md="3">
                     <div className="profileDisplay card">
                         <div className="imageUploadDiv">
 
@@ -172,10 +173,10 @@ const Profile = (props) => {
 
                 </Col>
                 :
-                <Col md="2">
+                <Col xs ="12" md="3">
                     <div className="profileDisplay card">
                         <div className="imageUploadDiv">
-                            <img className="profileImage card-img" alt='users profile' src={userInfo.avatar} />
+                            <img onClick={() => setModalImage(userInfo.avatar)} className="profileImage card-img" alt='users profile' src={userInfo.avatar} />
                         </div>
                         <div className='card-title'>
                             <h2 className='userName text-center'>
@@ -200,15 +201,16 @@ const Profile = (props) => {
 
                 </Col>}
 
-            <Col md="10">
+            <Col md="9">
                 <Row>
-                    <Post />
+                    <Post setModalImage={setModalImage} />
 
                 </Row>
                 <Row>
-                    {userInfo && <DisplayPost getPosts={getPosts} posts={userInfo.bikes} />}
+                    {userInfo && <DisplayPost modalImage={modalImage} setModalImage={setModalImage} getPosts={getPosts} posts={userInfo.bikes} />}
                 </Row>
             </Col>
+            {modalImage && <Modal modalImage={modalImage} setModalImage={setModalImage} />}
 
         </Container>
     )

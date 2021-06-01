@@ -25,6 +25,7 @@ router.get('/:id', (req, res) => {
         where: {
             id: req.params.id
         },
+
         attributes: [
             'id',
             'userName',
@@ -34,49 +35,54 @@ router.get('/:id', (req, res) => {
         ],
         include: [
             {
-                model: Bike,
-                attributes: ['id','title', 'userId', 'body', 'updated'],
-                include: [
-                    {
-                        model: Comment,
-                        attributes: ['id', 'userId', 'bikeId', 'body'],
-                        include: [
-                            {
+               
+            model: Bike,
+            order: [
+                ['updated', 'DESC']
+            ],
+            attributes: ['id', 'title', 'userId', 'body', 'updated'],
+            include: [
+                {
+                    model: Comment,
+                    
+                    attributes: ['id', 'userId', 'bikeId', 'body', 'created_at'],
+                    include: [
+                        {
                             model: User,
                             attributes: ['userName', 'id']
-                            }
-                        ]
-                    },
-                    {
-                        model: Like,
-                        attributes: ['bikeId', 'userId']
-                    },
-                    {
-                        model: Dislike,
-                        attributes: ['bikeId', 'userId']
-                    },
-                    {
-                        model: Photo,
-                        attributes: ['id', 'bikeId', 'userId', 'url', 'uploaded']
-                    },
-                    {
-                        model: User,
-                        attributes: ['userName', 'id']
-                    }
-                ]
+                        }
+                    ]
+                },
+                {
+                    model: Like,
+                    attributes: ['bikeId', 'userId']
+                },
+                {
+                    model: Dislike,
+                    attributes: ['bikeId', 'userId']
+                },
+                {
+                    model: Photo,
+                    attributes: ['id', 'bikeId', 'userId', 'url', 'uploaded']
+                },
+                {
+                    model: User,
+                    attributes: ['userName', 'id']
+                }
+            ]
                 
             },
-            {
+        {
             model: Photo,
             attributes: ['url']
-            },
+        },
         ]
     })
-        .then(userData => res.json(userData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+    .then(userData => res.json(userData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
 
 // PUT for user updates

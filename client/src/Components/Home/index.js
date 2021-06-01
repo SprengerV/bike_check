@@ -36,7 +36,7 @@ const Home = ({setModalImage, modalImage}) => {
       if (posts.length === 0) getPosts();
     }, [posts]);
 
-    console.log(posts)
+    // console.log(posts)
 
 
     return (
@@ -44,7 +44,7 @@ const Home = ({setModalImage, modalImage}) => {
         <Col xs="2">
           <SideBar func={getPosts} />
         </Col>
-        <Col cs="10">
+        <Col md="10">
           <Row>
             {isAuthenticated ? <Post getPosts={getPosts} setModalImage={setModalImage} /> : <div />}
 

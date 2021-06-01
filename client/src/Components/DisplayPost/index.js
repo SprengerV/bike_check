@@ -38,7 +38,7 @@ const DisplayPost = (props) => {
 
     const postComment = async (bikeId) => {
         if (commentText) {
-            const token = await getAccessTokenSilently();
+        const token = await getAccessTokenSilently();
             axios.post('api/comments/', {
                 bikeId: bikeId,
                 body: commentText
@@ -121,7 +121,7 @@ const DisplayPost = (props) => {
         <div>
 
             { bikes && bikes.map((bike, index) => (
-                <Card key={index}>
+                <Card className="displayCard"key={index}>
                     <Card.Header id={bike.id} className='bg-danger text-white'>
                         <div className='d-flex flex-row justify-content-between'>
                             <div></div>
@@ -139,7 +139,7 @@ const DisplayPost = (props) => {
                         </div>
                     </Card.Header>
                     <Card.Body>
-                        <div className="d-flex flex-column justify-content-center">
+                        <div className=" justify-content-center">
                             <Carousel fade className="displayCarousel">
 
                                 {bike.photos.map((photo, index) => (
@@ -149,7 +149,6 @@ const DisplayPost = (props) => {
                                             cloudName="dply85wun"
                                             publicId={photo.url}
                                             alt={index}
-                                            style={{ height: '600px' }}
                                         />
                                     </CarouselItem>
                                 ))}
@@ -157,10 +156,10 @@ const DisplayPost = (props) => {
                             </Carousel>
                             <div>
                                 <div className="row">
-                                    <div className="col-2 row">
-                                        <h3><a href={`/${bike.userId}`} >{bike.user.userName}</a></h3>
+                                    <div className="col-md-3 col-xs-12 row">
+                                        <h3><a className="postUserName" href={`/${bike.userId}`} >{bike.user.userName}</a></h3>
                                     </div>
-                                    <div className="col-10">
+                                    <div className="col-md-10">
                                         <p>{bike.body}</p>
                                     </div>
                                 </div>
@@ -186,7 +185,7 @@ const DisplayPost = (props) => {
                                                     <Card key={index} style={{margin: "12px"}}>
                                                         <Card.Header className="d-flex flex-row justify-content-between">
                                                             <div>{comment.user.userName}</div>
-                                                            <div></div>
+                                                            
                                                             <div>{getDuration(comment.created_at)}{(user?.sub === comment?.userId || permissions.includes("admin")) ? <span style={{cursor: "pointer"}} onClick={() => {deleteComment(comment.id)}}> • <FontAwesomeIcon icon={["far", "trash-alt"]}/></span> : <span></span>}</div>
                                                         </Card.Header>
                                                         <Card.Body>

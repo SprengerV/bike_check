@@ -110,11 +110,7 @@ const Post = ({ setModalImage, getPosts }) => {
             <Accordion  defaultActiveKey='0'>
                 <Card>
 
-                    <Card.Header className='text-center bg-danger text-white'>
-                        <Accordion.Toggle as={Button} eventKey='1'>
-                            Make a Post!
-                            </Accordion.Toggle>
-                    </Card.Header>
+                    
                     <Accordion.Collapse ref={accordionRef} eventKey='1'>
                         <Card.Body className="row">
                             <Container className="col-3 d-flex flex-column justify-content-center">
@@ -152,6 +148,11 @@ const Post = ({ setModalImage, getPosts }) => {
                             </Container>
                         </Card.Body>
                     </Accordion.Collapse>
+                    <Card.Header className='text-center bg-danger text-white'>
+                        <Accordion.Toggle className="makePost" as={Button} eventKey='1'>
+                            Make a Post!
+                            </Accordion.Toggle>
+                    </Card.Header>
                 </Card>
             </Accordion>
         </Col>

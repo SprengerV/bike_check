@@ -7,6 +7,9 @@ const API = {
     getBikesCat: function(cat) {
         return axios.get(`api/bikes/${cat}`)
     },
+    getUserBikes: function(id) {
+        return axios.get(`api/bikes/${id}`)
+    },
     getUsers: function(id) {
         return axios.get(`api/user/${id}`);
     },

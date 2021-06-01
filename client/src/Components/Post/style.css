@@ -22,10 +22,7 @@ label.photoUploadBtn {
     color: white;
   }
   
-  .displayPic {
-    margin-left: 100px;
-  
-  }
+ 
   
   img.previewImages {
     width: 100px;
@@ -37,4 +34,8 @@ label.photoUploadBtn {
     display: inline;
     margin: 0
   }
+
+.makePostBtn {
+  background-color: transparent;
+}
   

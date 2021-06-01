@@ -35,9 +35,8 @@ const NavbarMain = () => {
           <Nav className='linkNav'>
             <Link className="homeNav" to='/'> Home</Link>
 
-            {isAuthenticated ?
-              <Link className="homeNav" to={'/' + user.sub}> Profile</Link> :
-              <div />}
+            {isAuthenticated &&
+              <Link className="homeNav" to={'/' + user.sub}> Profile</Link> }
             <AuthenticationButton />
           </Nav>
         </Navbar.Collapse>
