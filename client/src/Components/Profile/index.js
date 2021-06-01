@@ -18,15 +18,16 @@ import DisplayPost from "../DisplayPost";
 
 const Profile = (props) => {
 
-    const { getUsers } = API;
+    const { getUsers, getUserBikes } = API;
     const { getAccessTokenSilently } = useAuth0();
     const [userInfo, setUserInfo] = useState([])
+    const [posts, setPosts]= useState([])
     const [editPost, setEditPost] = useState(false)
     const [bio, setBio] = useState('')
     let bioRef = useRef();
     let userNameRef = useRef();
     let locationRef = useRef()
-   
+   console.log(posts)
 
     const [imageSelected, setImageSelected] = useState(null)
     const [previewSource, setPreviewSource] = useState(null);
@@ -125,12 +126,18 @@ const Profile = (props) => {
 
     }
 
-    const getPosts = () => {
+
+    const getUser = () => {
         getUsers(props.match.params.id).then((data) => setUserInfo(data.data))
     }
+    const getPosts = () => {
+        getUserBikes(props.match.params.id).then((data) => setPosts(data.data))
+    }
+    
     useEffect(() => {
         if (userInfo.length === 0) {
-            getPosts()
+            getUser()
+            getPosts();
         }
     })
 
@@ -207,7 +214,7 @@ const Profile = (props) => {
 
                 </Row>
                 <Row>
-                    {userInfo && <DisplayPost modalImage={modalImage} setModalImage={setModalImage} getPosts={getPosts} posts={userInfo.bikes} />}
+                    {userInfo && <DisplayPost modalImage={modalImage} setModalImage={setModalImage} getPosts={getPosts} posts={posts} />}
                 </Row>
             </Col>
             {modalImage && <Modal modalImage={modalImage} setModalImage={setModalImage} />}

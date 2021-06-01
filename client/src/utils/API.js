@@ -8,7 +8,7 @@ const API = {
         return axios.get(`api/bikes/${cat}`)
     },
     getUserBikes: function(id) {
-        return axios.get(`api/bikes/${id}`)
+        return axios.get(`api/bikes/user/${id}`)
     },
     getUsers: function(id) {
         return axios.get(`api/user/${id}`);
