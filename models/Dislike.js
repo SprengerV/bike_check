@@ -3,9 +3,9 @@ const sequelize = require('../config/connection');
 const Bike = require('./Bike');
 const User = require('./User');
 
-class Like extends Model {};
+class Dislike extends Model {};
 
-Like.init(
+Dislike.init(
     {
         bikeId: {
             type: DataTypes.UUID,
@@ -28,8 +28,8 @@ Like.init(
         sequelize,
         timestamps: false,
         underscored: true,
-        modelName: 'likes'
+        modelName: 'dislikes'
     }
 );
 
-module.exports = Like;
+module.exports = Dislike;

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Bike, Comment, Like, Photo, User } = require('../../models');
+const { Bike, Comment, Like, Dislike, Photo, User } = require('../../models');
 const { requestorIsNotOwner, requestorIsNotAdmin, withAuth } = require('../../utils/auth');
 
 
@@ -29,6 +29,7 @@ router.get('/', (req, res) => {
                     'userId',
                     'bikeId',
                     'body',
+                    'created_at'
                 ],
                 include: {
                     model: User,
@@ -43,6 +44,17 @@ router.get('/', (req, res) => {
             },
             {
                 model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
+                ],
+                include: {
+                    model: User,
+                    attributes: ['userName']
+                }
+            },
+            {
+                model: Dislike,
                 attributes: [
                     'bikeId',
                     'userId'

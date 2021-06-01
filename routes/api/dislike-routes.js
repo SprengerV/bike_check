@@ -2,9 +2,9 @@ const router = require('express').Router();
 const { Like, Dislike, User } = require('../../models');
 const { withAuth } = require('../../utils/auth');
 
-// GET all likes
+// GET all dislikes
 router.get('/', (req, res) => {
-    Like.findAll({
+    Dislike.findAll({
         attributes: [
             'bikeId',
             'userId',
@@ -16,36 +16,36 @@ router.get('/', (req, res) => {
             }
         ]
     })
-        .then(likeData => res.json(likeData))
+        .then(dislikeData => res.json(dislikeData))
         .catch(err => {
             console.log(err);
             res.status(400).json(err);
         });
 });
 
-// POST a like
+// POST a dislike
 router.post('/', withAuth, (req, res) => {
-    Dislike.destroy({
+    Like.destroy({
         where: {
             bikeId: req.body.bikeId,
             userId: req.user.sub
         }
     }).then( () => {
-        Like.findOne({
+        Dislike.findOne({
             where: {
                 bikeId: req.body.bikeId,
                 userId: req.user.sub
             }
-        }).then(likeData => {
-            if (likeData) {
-                res.status(403).json({ message: "User already liked post" });
+        }).then(dislikeData => {
+            if (dislikeData) {
+                res.status(403).json({ message: "User already disliked post" });
                 return;
             }
-            Like.create({
+            Dislike.create({
                 bikeId: req.body.bikeId,
                 userId: req.user.sub
             })
-                .then(likeData => res.json(likeData))
+                .then(dislikeData => res.json(dislikeData))
                 .catch(err => {
                     res.status(400).json(err);
                 });
@@ -58,20 +58,20 @@ router.post('/', withAuth, (req, res) => {
 });
 
 
-// DELETE a like
+// DELETE a dislike
 router.delete('/:id', withAuth, (req, res) => {
-    Like.destroy({
+    Dislike.destroy({
         where: {
             bikeId: req.params.id,
             userId: req.user.sub
         }
     })
-    .then(likeData => {
-        if (!likeData) {
-            res.status(404).json({ message: "No like found" });
+    .then(dislikeData => {
+        if (!dislikeData) {
+            res.status(404).json({ message: "No dislike found" });
             return;
         }
-        res.json(likeData);
+        res.json(dislikeData);
     })
     .catch(err => {
         console.log(err);
