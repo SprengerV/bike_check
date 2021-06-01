@@ -27,7 +27,7 @@ const Post = ({ setModalImage, getPosts }) => {
 
     const handleChangeEvent = (e) => {
         const file = e.target.files[0];
-        setImageSelected(arr => [...arr, file])
+        setImageSelected(file)
 
         previewFile(file)
         console.log(imageSelected)
@@ -65,12 +65,6 @@ const Post = ({ setModalImage, getPosts }) => {
     }
 
     };
-
-
-
-
-
-
 
     const uploadPost = async () => {
 

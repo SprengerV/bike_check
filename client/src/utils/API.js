@@ -4,11 +4,11 @@ const API = {
     getBikes: function() {
         return axios.get(`api/bikes`);
     },
-    getBikeCat: function(cat) {
+    getBikesCat: function(cat) {
         return axios.get(`api/bikes/${cat}`)
     },
-    getUsers: function() {
-        return axios.get("api/users");
+    getUsers: function(id) {
+        return axios.get(`api/user/${id}`);
     },
     getPhotos: function() {
         return axios.get("api/photos");

@@ -10,6 +10,6 @@ router.use("/bikes", bikeRoute);
 router.use("/comments", commentRoute);
 router.use("/likes", likeRoute);
 router.use("/photos", photoRoute);
-router.use("/users", userRoute);
+router.use("/user", userRoute);
 
 module.exports = router;

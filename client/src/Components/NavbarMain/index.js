@@ -33,7 +33,7 @@ const NavbarMain = () => {
             <Link className="homeNav" to='/'> Home</Link>
 
             {isAuthenticated ?
-              <Link className="homeNav" to='/Profile:id'> Profile</Link> :
+              <Link className="homeNav" to={'/' + user.sub}> Profile</Link> :
               <div />}
             <AuthenticationButton />
           </Nav>

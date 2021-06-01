@@ -1,0 +1,48 @@
+
+div.profileDisplay {
+    border: 5px solid #e04444;
+    border-radius: 25px;
+    overflow: hidden;
+}
+
+img.profileImage {
+    border-bottom: 5px solid #e04444;
+    border-radius: 0;
+  
+}
+
+div.locationDiv {
+    padding-bottom: 20px;
+    border-bottom: 5px solid #e04444;
+}
+div.bioDiv {
+    margin-bottom: 20px;
+}
+
+.userNameInput {
+    font-family: Cubano;
+    font-size: x-large;
+    border: none;
+    border-bottom: 5px solid #e04444;
+}
+.locationInput {
+    border: 3px solid #e04444;
+    border-radius: 10px;
+}
+
+.bioInput {
+    height: 100px;
+    border: 3px solid #e04444;
+    border-radius: 10px;
+}
+
+
+
+
+
+h2.userName {
+    font-family: Cubano;
+    color: #e04444;
+    padding-bottom: 3px;
+    border-bottom: 5px solid #e04444;
+}

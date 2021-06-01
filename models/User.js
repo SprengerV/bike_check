@@ -20,6 +20,10 @@ User.init(
             type: DataTypes.STRING,
             allowNull: true
         },
+        bio: {
+            type: DataTypes.TEXT,
+            allowNull: true
+        },
         avatar: {
             type: DataTypes.STRING,
             defaultValue: 'http://getdrawings.com/profile-icon#profile-icon-56.png'

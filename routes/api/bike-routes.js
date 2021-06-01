@@ -95,7 +95,7 @@ router.get('/:category', (req, res) => {
                 ],
                 include: {
                     model: User,
-                    attributes: ['userName']
+                    attributes: ['userName', 'id']
                 }
             },
             {
