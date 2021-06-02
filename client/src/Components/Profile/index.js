@@ -19,7 +19,7 @@ import DisplayPost from "../DisplayPost";
 const Profile = (props) => {
 
     const { getUsers, getUserBikes } = API;
-    const { user, getAccessTokenSilently } = useAuth0();
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
     const [userInfo, setUserInfo] = useState([])
     const [posts, setPosts] = useState([])
     const [editPost, setEditPost] = useState(false)
@@ -212,7 +212,9 @@ const Profile = (props) => {
 
             <Col md="9">
                 <Row>
+                    {isAuthenticated &&
                     <Post setModalImage={setModalImage} />
+                }
 
                 </Row>
                 <Row>
