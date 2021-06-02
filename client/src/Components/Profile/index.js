@@ -97,7 +97,7 @@ const Profile = (props) => {
             try {
                 const data = await Axios
 
-                    .put(`api/user/${props.match.params.id}`,
+                    .put(`/api/user/${props.match.params.id}`,
                         {
                             UserName: userNameRef.current.value,
                             bio: bioRef.current.value,

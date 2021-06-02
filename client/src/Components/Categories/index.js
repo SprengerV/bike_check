@@ -49,10 +49,10 @@ const Category = props => {
 
     return (
         <Container className="row" fluid={true}>
-        <Col xs="2">
+        <Col xs="12="md="2">
           <SideBar getPosts={getPosts}/>
         </Col>
-        <Col md="10">
+        <Col xs="12" md="10">
           <Row>
             {isAuthenticated ? <Post getPosts={getPosts} setModalImage={setModalImage} /> : <div />}
 

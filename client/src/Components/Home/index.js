@@ -41,10 +41,10 @@ const Home = ({setModalImage, modalImage}) => {
 
     return (
         <Container className="row" fluid={true}>
-        <Col xs="2">
+        <Col md="2" xs="12">
           <SideBar getPosts={getPosts} />
         </Col>
-        <Col md="10">
+        <Col xs="12" md="10">
           <Row>
             {isAuthenticated ? <Post getPosts={getPosts} setModalImage={setModalImage} /> : <div />}
 

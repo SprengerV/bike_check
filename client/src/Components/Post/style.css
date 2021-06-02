@@ -29,6 +29,9 @@ button.postButton {
     padding: 10px;
     border: none;
   }
+  button.postButton{
+    margin-top: 5px;
+  }
 
 button.postButton:hover {
     color: #000;

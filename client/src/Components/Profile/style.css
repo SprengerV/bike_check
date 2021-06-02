@@ -3,6 +3,7 @@ div.profileDisplay {
     border: 5px solid #e04444;
     border-radius: 25px;
     overflow: hidden;
+    margin-bottom: 10px;
 }
 
 
