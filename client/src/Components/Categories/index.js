@@ -23,7 +23,7 @@ const Category = props => {
     const { isAuthenticated } = useAuth0();
     const [posts, setPosts] = useState([]);
     const [modalImage, setModalImage] = useState(null)
-    console.log(posts);
+    // console.log(posts);
 
   
     const getPosts = (category) => {
@@ -41,7 +41,7 @@ const Category = props => {
     useEffect(() => {
       if (posts.length === 0) {
           getPosts(props.match.params.category);
-          console.log(posts)
+          // console.log(posts)
       }
     }, [posts]);
 
@@ -49,10 +49,10 @@ const Category = props => {
 
     return (
         <Container className="row" fluid={true}>
-        <Col xs="2">
+        <Col xs="12="md="2">
           <SideBar getPosts={getPosts}/>
         </Col>
-        <Col md="10">
+        <Col xs="12" md="10">
           <Row>
             {isAuthenticated ? <Post getPosts={getPosts} setModalImage={setModalImage} /> : <div />}
 

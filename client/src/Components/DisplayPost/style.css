@@ -17,6 +17,7 @@ div.displayCard {
       background-color: #e04444;
       border-bottom-left-radius: 25px;
       border-bottom-right-radius: 25px;
+      margin-top: 0;
       z-index: 1;
   }
 
@@ -111,3 +112,25 @@ div.displayCard {
     color: #000;
   }
   
+
+  @media screen and (max-width: 400px) {
+    
+    .carousel-inner {
+      height: 250px;
+     
+     object-fit: fill;
+      
+     
+    }
+    .displayPic {
+      
+      max-height: 500px;
+      bottom: 0;
+      
+      /* max-height: 600px; */
+    
+    }
+  
+    
+  
+  }

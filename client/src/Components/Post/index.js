@@ -54,7 +54,7 @@ const Post = ({ setModalImage, getPosts }) => {
 
 
             Axios.post(
-                "api/bikes",
+                "/api/bikes",
                 {
                     title: titleRef.current.value,
                     body: bodyRef.current.value,
@@ -68,7 +68,7 @@ const Post = ({ setModalImage, getPosts }) => {
                 returnedImages.map((image) => {
 
                     Axios.post(
-                        "api/photos",
+                        "/api/photos",
 
                         {
                             url: image.data.url,
@@ -111,7 +111,7 @@ const Post = ({ setModalImage, getPosts }) => {
                 <Card className="postCard">
                     <Accordion.Collapse ref={accordionRef} eventKey='1'>
                         <Card.Body className="row">
-                            <Container className="col-3 d-flex flex-column justify-content-center">
+                            <Container className="col-xs-12 col-md-3 d-flex flex-column justify-content-center">
 
                                 <label className="categoryLabel" for="Category">Category</label>
                                 <select className="categorySelect" id="SelectCategory" title="Category" ref={categoryRef} >
@@ -132,18 +132,19 @@ const Post = ({ setModalImage, getPosts }) => {
                                 <div className="spinnerRow row">
                                 {loading && <Spinner className="spinner" animation="border"/> }
                                     {returnedImages && (returnedImages.map((image, index) => (
-                                        <div className="prevImageDiv col-3" onClick={() => setModalImage(image.data.url)}>
+                                        <div className="prevImageDiv col-xs-12 col-3" onClick={() => setModalImage(image.data.url)}>
                                             <img className="previewImages" key={index} src={image.data.url} />
                                         </div>
                                     )))}
                                 </div>
-                                <button className="postButton" type="button" eventKey='0' onClick={uploadPost} >Post</button>
+                                {/* <button className="postButton" type="button" eventKey='0' onClick={uploadPost} >Post</button> */}
                             </Container>
-                            <Container className="col-9">
+                            <Container className=" col-md-9">
                                 <FormControl id="postTitle"  ref={titleRef} placeholder="Title" />
                                 <br />
                                 <FormControl as="textarea" id="postBio" rows="5" ref={bodyRef} placeholder="About your bike..." />
                             </Container>
+                            <button className="postButton" type="button" eventKey='0' onClick={uploadPost} >Post</button>
                         </Card.Body>
                     </Accordion.Collapse>
                     <Card.Header className='text-center postHeader'>
