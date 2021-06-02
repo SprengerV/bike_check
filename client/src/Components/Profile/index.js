@@ -86,7 +86,7 @@ const Profile = (props) => {
                             setPreviewSource(null);
                             setImageSelected(null);
                             setEditPost(false)
-                            getPosts();
+                            getUser();
                         })
                     })
 
@@ -115,7 +115,7 @@ const Profile = (props) => {
                         setPreviewSource(null);
                         setImageSelected(null);
                         setEditPost(false)
-                        getPosts();
+                        getUser();
                     })
 
             } catch (e) {
