@@ -14,7 +14,7 @@ const DisplayPost = (props) => {
     const [bikes, setBikes] = useState([]);
     const [permissions, setPermissions] = useState([]);
     const [commentText, setCommentText] = useState("");
-    const { user, getAccessTokenSilently } = useAuth0();
+    const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
     useEffect(() => {
         if (props.posts) {
@@ -173,10 +173,12 @@ const DisplayPost = (props) => {
                                 </div>
                                 <Accordion.Collapse eventKey='0'>
                                     <div>
+                                        {isAuthenticated && 
                                         <div className="d-grid gap-2">
                                             <FormControl style={{ marginTop: "12px" }} value={commentText} onChange={e => setCommentText(e.target.value)} as="textarea" rows="3" placeholder="Write a comment..." />
                                             <button className="postCommentBtn"style={{ marginBottom: "12px" }} size="sm" onClick={() => { postComment(bike.id) }} block>Post</button>
                                         </div>
+                                        }
                                         <Card>
                                             <Card.Header>Comments • {bike.comments.length || 0}</Card.Header>
                                             {bike.comments.sort((a, b) => { return moment(b.created_at) - moment(a.created_at) }).map((comment, index) => (
