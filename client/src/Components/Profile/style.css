@@ -52,12 +52,12 @@ input.profilePicInput {
 }
 
 div.locationDiv {
-    padding-bottom: 20px;
+    padding-bottom: 10px;
+    margin: 0;
     
 }
 div.bioDiv {
     margin-bottom: 20px;
-    margin-top: 20px;
 }
 
 

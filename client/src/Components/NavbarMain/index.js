@@ -36,7 +36,7 @@ const NavbarMain = () => {
             <Link className="homeNav" to='/'> Home</Link>
 
             {isAuthenticated &&
-              <Link className="homeNav" to={'/' + user.sub}> Profile</Link> }
+              <Link className="homeNav" to={`/user/${user.sub}`}> Profile</Link> }
             <AuthenticationButton />
           </Nav>
         </Navbar.Collapse>

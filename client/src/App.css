@@ -38,8 +38,6 @@ img.headerLogo {
   
 }
 
-
-
 button#navButton{
   background-color: #e04444;
   margin: 2px;
@@ -73,63 +71,11 @@ h1.userName {
   font-size: xx-large;
 }
 
-div.categoryHeader {
-  background-color: #e04444;
-  color: white;
-}
 
 
 
-/* ----------------------------display post---------------------- */
 
-.displayCard {
-  margin-bottom: 30px;
-}
-a.carousel-control-prev span.sr-only, 
-a.carousel-control-next span.sr-only  {
-  color: #e04444;
-  text-decoration: none;
-  display: none;
-}
-span.carousel-control-next-icon{
-  background-image : url("./images/next-arrow.png");
-}
-span.carousel-control-prev-icon{
-background-image : url("./images/previous-arrow.png");
-}
 
-div.carousel-item:active {
-  z-index: 0;
-}
-
-.displayCarousel {
-  z-index: 0;
-}
-
-.imageSelector::after {
-  position: relative;
-}
-.carousel-inner {
-  height:500px;
-}
-.displayImage {
-  cursor: pointer;
-  display: inline
-}
-.displayPic {
-  cursor: pointer;
-  display: inline;
-  object-fit:contain;
-  position: relative;
-  max-height: 700px;
-  bottom:100px;
-  /* max-height: 600px; */
-
-}
-.postUserName {
-  color: #e04444;
-  font-family: Cubano;
-}
 
 
 /* -------------------------mobile-------------------------- */

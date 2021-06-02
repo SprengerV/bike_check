@@ -108,15 +108,13 @@ const Post = ({ setModalImage, getPosts }) => {
     return (
         <Col xs="12" className="ms-auto me-auto">
             <Accordion  defaultActiveKey='0'>
-                <Card>
-
-                    
+                <Card className="postCard">
                     <Accordion.Collapse ref={accordionRef} eventKey='1'>
                         <Card.Body className="row">
                             <Container className="col-3 d-flex flex-column justify-content-center">
 
-                                <label for="Category">Category</label>
-                                <select id="SelectCategory" title="Category" ref={categoryRef} variant="outline-danger">
+                                <label className="categoryLabel" for="Category">Category</label>
+                                <select className="categorySelect" id="SelectCategory" title="Category" ref={categoryRef} >
                                     <option disabled defaultValue >Select One</option>
                                     <option>Mountain</option>
                                     <option>Road</option>
@@ -139,17 +137,17 @@ const Post = ({ setModalImage, getPosts }) => {
                                         </div>
                                     )))}
                                 </div>
-                                <Button className="postButton" type="button" variant="danger" eventKey='0' onClick={uploadPost} >Post</Button>
+                                <button className="postButton" type="button" eventKey='0' onClick={uploadPost} >Post</button>
                             </Container>
                             <Container className="col-9">
-                                <FormControl id="postTitle" ref={titleRef} placeholder="Title" />
+                                <FormControl id="postTitle"  ref={titleRef} placeholder="Title" />
                                 <br />
-                                <FormControl as="textarea" rows="5" ref={bodyRef} placeholder="About your bike..." />
+                                <FormControl as="textarea" id="postBio" rows="5" ref={bodyRef} placeholder="About your bike..." />
                             </Container>
                         </Card.Body>
                     </Accordion.Collapse>
-                    <Card.Header className='text-center bg-danger text-white'>
-                        <Accordion.Toggle className="makePost" as={Button} eventKey='1'>
+                    <Card.Header className='text-center postHeader'>
+                        <Accordion.Toggle className="makePostBtn"  eventKey='1'>
                             Make a Post!
                             </Accordion.Toggle>
                     </Card.Header>

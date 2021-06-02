@@ -76,64 +76,6 @@ router.get('/', (req, res) => {
 });
 
 
-// GET bikes by category
-router.get('/:category', (req, res) => {
-    Bike.findAll({
-        where: {
-            category: req.params.category
-        },
-        order: [
-            ['updated', 'DESC']
-        ],
-        attributes: [
-            'id',
-            'userId',
-            'title',
-            'body',
-            'updated',
-        ],
-        include: [
-            {
-                model: User,
-                attributes: ['userName']
-            },
-            {
-                model: Comment,
-                attributes: [
-                    'id',
-                    'userId',
-                    'bikeId',
-                    'body',
-                ],
-                include: {
-                    model: User,
-                    attributes: ['userName', 'id']
-                }
-            },
-            {
-                model: Photo,
-                attributes: [
-                    "url",
-                ]
-            },
-            {
-                model: Like,
-                attributes: [
-                    'bikeId',
-                    'userId'
-                ]
-            }
-
-
-        ]
-    })
-        .then(bikeData => res.json(bikeData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
-
 // GET a single post by ID
 router.get('/:id', (req, res) => {
     Bike.findOne({

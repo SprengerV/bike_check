@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import Post from '../Post/index'
 import SideBar from '../SideBar/index';
 import DisplayPost from '../DisplayPost/index';
-
+import Modal from '../Modal'
 
 
 import { Row, Col, Container } from 'react-bootstrap';
@@ -19,30 +19,38 @@ library.add(faEllipsisH, faThumbsUp, faThumbsDown, faComment, faTrashAlt);
 
 
 
-const Home = ({setModalImage, modalImage}) => {
+const Category = props => {
     const { isAuthenticated } = useAuth0();
     const [posts, setPosts] = useState([]);
-   
-    // console.log(posts.data)
+    const [modalImage, setModalImage] = useState(null)
+    console.log(posts);
+
   
-    const getPosts = (cat) => {
-      API.getBikes(cat)
-        .then(res => setPosts(res))
-        .catch(err => setPosts([err]));
+    const getPosts = (category) => {
+        if (category) {
+          
+          API.getBikesCat(category).then((data) => setPosts(data.data))
+        } else {
+          
+          API.getBikesCat(props.match.params.category).then((data) => setPosts(data.data))
+        }
+        
     }
 
   
     useEffect(() => {
-      if (posts.length === 0) getPosts();
+      if (posts.length === 0) {
+          getPosts(props.match.params.category);
+          console.log(posts)
+      }
     }, [posts]);
 
-    // console.log(posts)
 
 
     return (
         <Container className="row" fluid={true}>
         <Col xs="2">
-          <SideBar getPosts={getPosts} />
+          <SideBar getPosts={getPosts}/>
         </Col>
         <Col md="10">
           <Row>
@@ -50,13 +58,14 @@ const Home = ({setModalImage, modalImage}) => {
 
           </Row>
           <Row>
-            {posts && <DisplayPost modalImage={modalImage} setModalImage={setModalImage} getPosts={getPosts} posts={posts.data} />}
+            {posts && <DisplayPost modalImage={modalImage} setModalImage={setModalImage} getPosts={getPosts} posts={posts} />}
           </Row>
         </Col>
+        {modalImage && <Modal modalImage={modalImage} setModalImage={setModalImage} />}
         
       </Container>
     )
 
 }
 
-export default Home;
+export default Category;

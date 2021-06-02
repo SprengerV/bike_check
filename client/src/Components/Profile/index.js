@@ -19,21 +19,20 @@ import DisplayPost from "../DisplayPost";
 const Profile = (props) => {
 
     const { getUsers, getUserBikes } = API;
-    const { getAccessTokenSilently } = useAuth0();
+    const { user, getAccessTokenSilently } = useAuth0();
     const [userInfo, setUserInfo] = useState([])
-    const [posts, setPosts]= useState([])
+    const [posts, setPosts] = useState([])
     const [editPost, setEditPost] = useState(false)
     const [bio, setBio] = useState('')
     let bioRef = useRef();
     let userNameRef = useRef();
     let locationRef = useRef()
-   console.log(posts)
 
     const [imageSelected, setImageSelected] = useState(null)
     const [previewSource, setPreviewSource] = useState(null);
     const [modalImage, setModalImage] = useState(null)
 
-    console.log(userInfo)
+
 
     const handleChangeEvent = (e) => {
         const file = e.target.files[0];
@@ -133,7 +132,7 @@ const Profile = (props) => {
     const getPosts = () => {
         getUserBikes(props.match.params.id).then((data) => setPosts(data.data))
     }
-    
+
     useEffect(() => {
         if (userInfo.length === 0) {
             getUser()
@@ -180,7 +179,7 @@ const Profile = (props) => {
 
                 </Col>
                 :
-                <Col xs ="12" md="3">
+                <Col xs="12" md="3">
                     <div className="profileDisplay card">
                         <div className="imageUploadDiv">
                             <img onClick={() => setModalImage(userInfo.avatar)} className="profileImage card-img" alt='users profile' src={userInfo.avatar} />
@@ -199,14 +198,17 @@ const Profile = (props) => {
                                 <h4 className="cardSubTitle" for="location">Bio</h4>
                                 <p id='location'>{userInfo.bio}</p>
                             </div>
-                            <div className="editButtonDiv">
-                                <button className="col-10 editSave" onClick={() => setEditPost(true)}>Edit</button>
-                            </div>
+                            {user?.sub === userInfo?.id &&
+                                <div className="editButtonDiv">
+                                    <button className="col-10 editSave" onClick={() => setEditPost(true)}>Edit</button>
+                                </div>
+                            }
                         </div>
 
                     </div>
 
                 </Col>}
+                
 
             <Col md="9">
                 <Row>
