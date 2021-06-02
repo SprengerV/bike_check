@@ -31,7 +31,7 @@ const DisplayPost = (props) => {
 
     const deletePost = async (postId) => {
         const token = await getAccessTokenSilently();
-        axios.delete(`api/bikes/${postId}`, {
+        axios.delete(`/api/bikes/${postId}`, {
             headers: { 'Authorization': `Bearer ${token}` }
         }).then(() => {
             props.getPosts();
