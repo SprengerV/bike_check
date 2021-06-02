@@ -65,7 +65,7 @@ const Post = ({ setModalImage, getPosts }) => {
                 }
             ).then((response) => {
 
-                returnedImages.map(async (image) => {
+                returnedImages.map((image) => {
 
                     Axios.post(
                         "api/photos",

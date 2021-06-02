@@ -22,8 +22,7 @@ router.post('/create', withAuth, (req, res) => {
     User
         .findByPk(user.sub)
         .then(searched => {
-            
-            searched.dataValues.id === user.sub
+            searched
                 ? res.status(200).json("searched")
                 : createUser(user);
         })
