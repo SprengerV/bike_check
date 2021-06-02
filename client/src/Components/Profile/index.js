@@ -67,7 +67,7 @@ const Profile = (props) => {
                         photoData
                     ).then((data) => {
 
-                        Axios.put(`api/user/${props.match.params.id}`,
+                        Axios.put(`/api/user/${props.match.params.id}`,
                             {
                                 UserName: userNameRef.current.value,
                                 bio: bioRef.current.value,
