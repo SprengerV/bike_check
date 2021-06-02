@@ -23,7 +23,7 @@ const Category = props => {
     const { isAuthenticated } = useAuth0();
     const [posts, setPosts] = useState([]);
     const [modalImage, setModalImage] = useState(null)
-    console.log(posts);
+    // console.log(posts);
 
   
     const getPosts = (category) => {
@@ -41,7 +41,7 @@ const Category = props => {
     useEffect(() => {
       if (posts.length === 0) {
           getPosts(props.match.params.category);
-          console.log(posts)
+          // console.log(posts)
       }
     }, [posts]);
 
