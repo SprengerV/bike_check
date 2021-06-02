@@ -84,6 +84,7 @@ div.displayCard {
     font-family: Helvetica;
     font-weight: bold;
     border-radius: 25px;
+    padding:5px;
   }
   textarea.bodyDisplay:focus {
     outline: none;
