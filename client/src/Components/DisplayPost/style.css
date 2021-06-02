@@ -131,6 +131,10 @@ div.displayCard {
     
     }
   
-    
+    h2.dispPostTitle {
+      width: 100%;
+      left: 0;
+      font-size: large;
+    }
   
   }
