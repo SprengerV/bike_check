@@ -54,7 +54,7 @@ const Post = ({ setModalImage, getPosts }) => {
 
 
             Axios.post(
-                "api/bikes",
+                "/api/bikes",
                 {
                     title: titleRef.current.value,
                     body: bodyRef.current.value,
@@ -68,7 +68,7 @@ const Post = ({ setModalImage, getPosts }) => {
                 returnedImages.map((image) => {
 
                     Axios.post(
-                        "api/photos",
+                        "/api/photos",
 
                         {
                             url: image.data.url,
