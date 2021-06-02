@@ -77,13 +77,14 @@ div.displayCard {
     margin-top: 10px;
     border: none;
     width: 100%;
-    height: 100%;
+    height: 150px;
     text-align: center;
     border-left: 3px solid #e04444;
     border-bottom: 3px solid #e04444;
     font-family: Helvetica;
     font-weight: bold;
     border-radius: 25px;
+    padding:5px;
   }
   textarea.bodyDisplay:focus {
     outline: none;
@@ -132,9 +133,12 @@ div.displayCard {
     }
   
     h2.dispPostTitle {
-      width: 100%;
+      width: 90%;
       left: 0;
       font-size: large;
+    }
+    textarea.bodyDisplay {
+      height:100px;
     }
   
   }
