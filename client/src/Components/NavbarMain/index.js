@@ -7,13 +7,16 @@ import { Link } from "react-router-dom"
 import AuthenticationButton from '../authenticationButton';
 import { useAuth0 } from "@auth0/auth0-react"
 import api from '../../controllers/api';
+// import API from '../../utils/API'
 
 const NavbarMain = () => {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
 
+
   useEffect(async () => {
     if (isAuthenticated) {
+
       const token = await getAccessTokenSilently({ audience: 'bike-check' });
       api.userCreate(user, token);
     }
@@ -32,9 +35,8 @@ const NavbarMain = () => {
           <Nav className='linkNav'>
             <Link className="homeNav" to='/'> Home</Link>
 
-            {isAuthenticated ?
-              <Link className="homeNav" to='/Profile:id'> Profile</Link> :
-              <div />}
+            {isAuthenticated &&
+              <Link className="homeNav" to={`/user/${user.sub}`}> Profile</Link> }
             <AuthenticationButton />
           </Nav>
         </Navbar.Collapse>

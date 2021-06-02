@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Bike, Comment, Like, Photo, User } = require('../../models');
+const { Bike, Dislike, Comment, Like, Photo, User } = require('../../models');
 const { requestorIsNotOwner, withAuth } = require('../../utils/auth');
 
 // GET all users
@@ -22,45 +22,67 @@ router.get('/', (req, res) => {
 // GET a single user by ID
 router.get('/:id', (req, res) => {
     User.findOne({
+        where: {
+            id: req.params.id
+        },
+
         attributes: [
             'id',
             'userName',
             'location',
             'avatar',
+            'bio'
         ],
-        where: {
-            id: req.params.id
-        },
         include: [
             {
-                model: Bike,
-                attributes: ['id', 'userId', 'body', 'updated']
+               
+            model: Bike,
+            order: [
+                ['updated', 'DESC']
+            ],
+            attributes: ['id', 'title', 'userId', 'body', 'updated'],
+            include: [
+                {
+                    model: Comment,
+                    
+                    attributes: ['id', 'userId', 'bikeId', 'body', 'created_at'],
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['userName', 'id']
+                        }
+                    ]
+                },
+                {
+                    model: Like,
+                    attributes: ['bikeId', 'userId']
+                },
+                {
+                    model: Dislike,
+                    attributes: ['bikeId', 'userId']
+                },
+                {
+                    model: Photo,
+                    attributes: ['id', 'bikeId', 'userId', 'url', 'uploaded']
+                },
+                {
+                    model: User,
+                    attributes: ['userName', 'id']
+                }
+            ]
+                
             },
-            {
-                model: Comment,
-                attributes: ['id', 'userId', 'bikeId', 'body']
-            },
-            {
-                model: Like,
-                attributes: ['bikeId', 'userId']
-            },
-            {
-                model: Photo,
-                attributes: ['id', 'bikeId', 'userId', 'url', 'uploaded']
-            }
+        {
+            model: Photo,
+            attributes: ['url']
+        },
         ]
     })
-        .then(userData => {
-            if (!userData) {
-                res.status(404).json({ message: "No user found with that ID" });
-                return;
-            }
-            res.json(userData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
+    .then(userData => res.json(userData))
+    .catch(err => {
+        console.log(err);
+        res.status(500).json(err);
+    });
 });
 
 // PUT for user updates
@@ -70,7 +92,7 @@ router.put('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(userData => {
-        if (requestorIsNotOwner(userData.userId, req.user)) {
+        if (requestorIsNotOwner(userData.id, req.user)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }
@@ -104,7 +126,7 @@ router.delete('/:id', withAuth, (req, res) => {
             id: req.params.id
         }
     }).then(userData => {
-        if (requestorIsNotOwner(userData.userId, req.user)) {
+        if (requestorIsNotOwner(userData.id, req.user)) {
             res.status(403).json({ message: "Unauthorized action" });
             return;
         }

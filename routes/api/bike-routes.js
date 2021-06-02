@@ -76,64 +76,6 @@ router.get('/', (req, res) => {
 });
 
 
-// GET bikes by category
-router.get('/:category', (req, res) => {
-    Bike.findAll({
-        where: {
-            category: req.params.category
-        },
-        order: [
-            ['updated', 'DESC']
-        ],
-        attributes: [
-            'id',
-            'userId',
-            'title',
-            'body',
-            'updated',
-        ],
-        include: [
-            {
-                model: User,
-                attributes: ['userName']
-            },
-            {
-                model: Comment,
-                attributes: [
-                    'id',
-                    'userId',
-                    'bikeId',
-                    'body',
-                ],
-                include: {
-                    model: User,
-                    attributes: ['userName']
-                }
-            },
-            {
-                model: Photo,
-                attributes: [
-                    "url",
-                ]
-            },
-            {
-                model: Like,
-                attributes: [
-                    'bikeId',
-                    'userId'
-                ]
-            }
-
-
-        ]
-    })
-        .then(bikeData => res.json(bikeData))
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
-        });
-});
-
 // GET a single post by ID
 router.get('/:id', (req, res) => {
     Bike.findOne({
@@ -178,6 +120,79 @@ router.get('/:id', (req, res) => {
             res.status(500).json(err);
         });
 });
+router.get('/user/:id', (req, res) => {
+    Bike.findAll({
+        where: {
+            userId: req.params.id
+        },
+        order: [
+            ['updated', 'DESC']
+        ],
+        attributes: [
+            'id',
+            'userId',
+            'title',
+            'body',
+            'updated',
+        ],
+        include: [
+            {
+                model: User,
+                attributes: ['userName']
+            },
+            {
+                model: Comment,
+                attributes: [
+                    'id',
+                    'userId',
+                    'bikeId',
+                    'body',
+                    'created_at'
+                ],
+                include: {
+                    model: User,
+                    attributes: ['userName']
+                }
+            },
+            {
+                model: Photo,
+                attributes: [
+                    "url",
+                ]
+            },
+            {
+                model: Like,
+                attributes: [
+                    'bikeId',
+                    'userId'
+                ],
+                include: {
+                    model: User,
+                    attributes: ['userName']
+                }
+            },
+            {
+                model: Dislike,
+                attributes: [
+                    'bikeId',
+                    'userId'
+                ],
+                include: {
+                    model: User,
+                    attributes: ['userName']
+                }
+            }
+
+
+        ]
+    })
+        .then(bikeData => res.json(bikeData))
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
+});
+
 
 
 // // POST create new Bike post

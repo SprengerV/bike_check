@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
-import api from "../controllers/api"
+import { Auth0Provider} from '@auth0/auth0-react';
+// import api from "../controllers/api"
 
 const Auth0ProviderWithHistory = ({ children }) => {
     const history = useHistory();
-    const { getAccessTokenSilently, user } = useAuth0();
+    // const { getAccessTokenSilently, user } = useAuth0();
 
 
     const onRedirectCallback = (appState) => {

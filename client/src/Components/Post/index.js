@@ -1,79 +1,103 @@
-import React, { useState } from 'react'
-import { Col, Container, Accordion, Card, Button, DropdownButton, Dropdown, FormControl, Carousel, Input } from 'react-bootstrap';
+import React, { useState, useRef } from 'react'
+import { Col, Container, Accordion, Card, Button,  FormControl, Spinner } from 'react-bootstrap';
 // import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 import Axios from "axios";
-import { Image } from "cloudinary-react";
-import API from "../../utils/API";
 import { useAuth0 } from "@auth0/auth0-react"
+import "./style.css"
 
-const Post = ({setModalImage}) => {
+const Post = ({ setModalImage, getPosts }) => {
 
-    const { user, getAccessTokenSilently } = useAuth0();
+    const { getAccessTokenSilently } = useAuth0();
 
-    const [imageSelected, setImageSelected] = useState("")
-    const [postTitle, setPostTitle] = useState("");
-    const [postBody, setPostBody] = useState("");
-    const [categorySelected, setCategorySelected] = useState("");
-    const [returnedImages, setReturnedImages] = useState([]);
-    // console.log(imageSelected);
-    console.log(returnedImages);
+    const [ returnedImages, setReturnedImages ] = useState([]);
+    const [ loading, setLoading ] = useState(false);
+    let titleRef= useRef()
+    let bodyRef= useRef()
+    let categoryRef = useRef();
+    let accordionRef = useRef();
+    
+    
+    
+    const uploadImage = async (e) => {
 
-    const uploadImage = (input) => {
+
         const photoData = new FormData();
-        photoData.append('file', input.target.files[0]);
-        photoData.append("upload_preset", "fnin4syl");
 
-        Axios.post(
-            "https://api.cloudinary.com/v1_1/dply85wun/image/upload",
+        photoData.append('file', e.target.files[0]);
+        photoData.append("upload_preset", "fnin4syl");
+        setLoading(true)
+        try {
+         const data = await Axios
+            .post("https://api.cloudinary.com/v1_1/dply85wun/image/upload",
             photoData
         ).then((data) => {
-            setReturnedImages(arr => [...arr, data])
-            console.log(returnedImages)
-        });
+            setReturnedImages(arr=> [...arr, data])
+            setLoading(false)
+        })
+        
+    } catch (e) {
+        console.log(e);
     }
 
-
+    };
 
     const uploadPost = async () => {
 
-        const token = await getAccessTokenSilently();
-        console.log(token)
+       
+
+        if (bodyRef.current.value && returnedImages && titleRef.current.value && categoryRef.current.value) {
+
+           
+
+            const token = await getAccessTokenSilently();
+         
 
 
-        Axios.post(
+            Axios.post(
                 "api/bikes",
                 {
-                    title: postTitle,
-                    body: postBody,
-                    category: categorySelected,
-                    // userId: user.sub
+                    title: titleRef.current.value,
+                    body: bodyRef.current.value,
+                    category: categoryRef.current.value,
                 },
                 {
-                    headers: {'Authorization': `Bearer ${token}`}
+                    headers: { 'Authorization': `Bearer ${token}` }
                 }
             ).then((response) => {
-                returnedImages.map((image, index) => (
+
+                returnedImages.map(async (image) => {
+
                     Axios.post(
                         "api/photos",
-                        
+
                         {
                             url: image.data.url,
                             // userId: user.sub,
                             bikeId: response.data.id
                         },
                         {
-                            headers: {'Authorization': `Bearer ${token}`}
+                            headers: { 'Authorization': `Bearer ${token}` }
                         }
-                    ).then((res) => {
-                        console.log(res)
-                        window.location.reload()
-                    })
+                    ).then(
+                        getPosts("all"),
 
-                ))
+                        titleRef.current.value = "",
+                        bodyRef.current.value = "",
+                        categoryRef.current.value = "",
+                        setReturnedImages([]),
+                        
+                        
+                        
 
+
+                    )
+                       
+                })
             })
+        }
 
     }
+
 
     // console.log(postTitle)
 
@@ -82,23 +106,16 @@ const Post = ({setModalImage}) => {
 
 
     return (
-        <Col xs="10" className="ms-auto me-auto">
-            <Accordion defaultActiveKey='0'>
-                <Card>
-                    <Card.Header className='text-center bg-danger text-white'>
-                        <Accordion.Toggle as={Button} eventKey='1'>
-                            Post
-                            </Accordion.Toggle>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey='1'>
+        <Col xs="12" className="ms-auto me-auto">
+            <Accordion  defaultActiveKey='0'>
+                <Card className="postCard">
+                    <Accordion.Collapse ref={accordionRef} eventKey='1'>
                         <Card.Body className="row">
                             <Container className="col-3 d-flex flex-column justify-content-center">
-                                <label for="Category">Category</label>
-                                <select id="SelectCategory" title="Category" variant="outline-danger"
-                                    onChange={(event) => {
-                                        setCategorySelected(event.target.value)
-                                    }}>
-                                    <option disabled selected >Select One</option>
+
+                                <label className="categoryLabel" for="Category">Category</label>
+                                <select className="categorySelect" id="SelectCategory" title="Category" ref={categoryRef} >
+                                    <option disabled defaultValue >Select One</option>
                                     <option>Mountain</option>
                                     <option>Road</option>
                                     <option>Gravel</option>
@@ -110,32 +127,30 @@ const Post = ({setModalImage}) => {
                                 </select>
                                 <br />
                                 <label for="files" className="photoUploadBtn btn text-center p-2">Select Images</label>
-                                <input style={{ visibility: 'hidden' }} id="files" type="file" onChange={(event) => {
-                                    uploadImage(event)
-
-                                }} />
-                                <div className="row">
-                                    {returnedImages !== 0 ? returnedImages.map((image, index) => (
-                                        <div onClick={()=> setModalImage(image.data.url)}>
-                                        <img className="previewImages" key={index} src={image.data.url} />
+                                <input style={{ visibility: 'hidden' }} id="files" type="file" onChange={(e) => uploadImage(e)} />
+                                
+                                <div className="spinnerRow row">
+                                {loading && <Spinner className="spinner" animation="border"/> }
+                                    {returnedImages && (returnedImages.map((image, index) => (
+                                        <div className="prevImageDiv col-3" onClick={() => setModalImage(image.data.url)}>
+                                            <img className="previewImages" key={index} src={image.data.url} />
                                         </div>
-                                    ))
-                                        : <br />}
+                                    )))}
                                 </div>
-                                <br />
-                                <Button variant="danger" onClick={uploadPost} >Post</Button>
+                                <button className="postButton" type="button" eventKey='0' onClick={uploadPost} >Post</button>
                             </Container>
                             <Container className="col-9">
-                                <FormControl id="postTitle" placeholder="Title" onChange={(event) => {
-                                    setPostTitle(event.target.value)
-                                }} />
+                                <FormControl id="postTitle"  ref={titleRef} placeholder="Title" />
                                 <br />
-                                <FormControl as="textarea" rows="5" placeholder="About your bike..." onChange={(event) => {
-                                    setPostBody(event.target.value)
-                                }} />
+                                <FormControl as="textarea" id="postBio" rows="5" ref={bodyRef} placeholder="About your bike..." />
                             </Container>
                         </Card.Body>
                     </Accordion.Collapse>
+                    <Card.Header className='text-center postHeader'>
+                        <Accordion.Toggle className="makePostBtn"  eventKey='1'>
+                            Make a Post!
+                            </Accordion.Toggle>
+                    </Card.Header>
                 </Card>
             </Accordion>
         </Col>

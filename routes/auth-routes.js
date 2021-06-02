@@ -4,6 +4,7 @@ const User = require('../models').User;
 
 router.post('/create', withAuth, (req, res) => {
     const user = req.body.user;
+    
     const createUser = (user) => {
         User
             .create({
@@ -21,8 +22,9 @@ router.post('/create', withAuth, (req, res) => {
     User
         .findByPk(user.sub)
         .then(searched => {
-            searched
-                ? res.status(200).json(searched)
+            
+            searched.dataValues.id === user.sub
+                ? res.status(200).json("searched")
                 : createUser(user);
         })
         .catch(err => {

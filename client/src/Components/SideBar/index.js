@@ -1,25 +1,27 @@
 import React from 'react';
-import { Card, Button, Col } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import "./style.css"
 
 const cats = ['All', 'Mountain', 'Road', 'Gravel', 'Touring', 'BMX', 'Commuter', 'Custom Builds', 'Vintage'];
 
 const SideBar = (props) => {
-  const select = (event) => {
-    props.func(event.target.innerHTML.toLowerCase());
-   
-  }
+
+
+
   return (
-    <Card>
+    <Card className="sideBarCard">
       <Card.Header className="categoryHeader">
-          Categories
+        Categories
       </Card.Header>
-      <Card.Body>
-        { cats.map((cat, i) =><> 
-          <Button onClick={ select } key={ i } variant="light">{ cat }</Button><br></br>
+      <Card.Body className="row">
+        {cats.map((cat, i) => <>
+          <button onClick={() => props.getPosts({cat})} className="catBtn col-12"   key={i} variant="light"><a className="sideBarRefs" href={`/category/${cat}`}> {cat}</a> </button>
         </>)}
       </Card.Body>
     </Card>
   );
 }
+
 
 export default SideBar;

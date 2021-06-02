@@ -1,65 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+import Home from './Components/Home/index';
+import Profile from './Components/Profile/index'
+import Modal from './Components/Modal'
+import Category from './Components/Categories'
 
 import NavbarMain from './Components/NavbarMain';
-import Post from './Components/Post';
-import SideBar from './Components/SideBar';
-import DisplayPost from './Components/DisplayPost';
-import Modal from './Components/Modal/index';
 
-import { Row, Col, Container } from 'react-bootstrap';
-import API from './utils/API';
-import { useAuth0 } from "@auth0/auth0-react"
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons'
-import { faThumbsUp, faThumbsDown, faComment, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
-
-
-library.add( faEllipsisH, faThumbsUp, faThumbsDown, faComment, faTrashAlt);
-
-const { getBikes } = API;
 
 function App() {
-  const {isAuthenticated } = useAuth0();
-  const [posts, setPosts] = useState([]);
+
   const [modalImage, setModalImage] = useState(null)
-  // console.log(posts.data)
-
-  const getPosts = (cat) => {
-    getBikes(cat)
-      .then(res => setPosts(res))
-      .catch(err => setPosts([err]));
-  }
-
-  useEffect(() => {
-    if (posts.length === 0) getPosts('all');
-  }, [posts]);
 
   return (
     <Router>
-      
+
       <NavbarMain />
-      
-      <Container className="row" fluid={true}>
-        <Col xs="2">
-          <SideBar func={getPosts} />
-        </Col>
+      <Switch>
+        <Route exact path="/" render={()=> <Home modalImage={modalImage} setModalImage={setModalImage}/>} />
+        <Route exact path='/user/:id' component={Profile} />
+        <Route exact path='/category/:category' component={Category} />
         
-        <Col cs="10">
-          <Row>
-            {isAuthenticated ? <Post setModalImage={setModalImage}/> : <div/> }
-            
-          </Row>
-          <Row>
-          
-            <DisplayPost setModalImage={setModalImage} posts={posts.data} getPosts={getPosts} />
-          </Row>
-        </Col>
-        
-      </Container>
-      {modalImage && <Modal modalImage={modalImage} setModalImage={setModalImage}/>}
-      
+      </Switch>
+      {modalImage && <Modal modalImage={modalImage} setModalImage={setModalImage} />}
     </Router>
   );
 }
