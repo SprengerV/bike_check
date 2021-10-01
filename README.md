@@ -15,8 +15,8 @@
 This is a photo sharing social app for posting bike builds. Make post's with title, body, and multiple photo's
 
 
-![screenshot of application](client/public/images/screencap_1.png)
-![screenshot of application](client/public/images/screencap_2.png)
+![screenshot of application](./client/public/images/screencap_1.png)
+![screenshot of application](./client/public/images/screencap_2.png)
 ---------------
 
 ## *Installation*
